@@ -1,0 +1,147 @@
+swagger: '2.0'
+info:
+  version: 1.2017.5.27.1
+  title: Retail Dashboard API
+  description: Accenture Retail Dashboard
+  contact:
+    email: james@impekable.com
+  license:
+    name: Private
+host: somehost.somewhere.com
+basePath: /api
+schemes:
+  - https
+tags:
+  - name: store
+    description: Related to store data
+  - name: android
+    description: Related to Android
+  - name: ios
+    description: Related to iOS
+  - name: customer
+    description: Related to customers
+definitions:
+  StoreAnalyticRangeResult:
+    type: object
+    required:
+      - startDate
+      - endDate
+    properties:
+      startDate:
+        type: number
+        format: date-time
+        example: 1494288000
+        description: The date-time the data values start
+      endDate:
+        type: number
+        format: date-time
+        example: 1494806400
+        description: The date-time the data values stop
+      deltaDate:
+        type: number
+        format: date-time
+        example: 1493596800
+        description: The date-time of the delta start
+      data:
+        type: array
+        items:
+          $ref: '#/definitions/StoreAnalyticDetail'
+  StoreAnalyticDetail:
+    type: object
+    required:
+      - values
+      - units
+    properties:
+      type:
+        type: string
+        example: unique_visits
+        enum:
+          - device_type
+          - visitors
+          - visitors_ios
+          - visitors_android
+          - unique_visits
+          - average_duration
+      name:
+        type: string
+        example: Unique Visitors
+        description: Display name
+      values:
+        type: array
+        items:
+          type: number
+        example:
+          - 44
+          - 32
+          - 19
+          - 59
+          - 78
+          - 48
+          - 64
+        description: The discreet value(s)
+      units:
+        type: array
+        items:
+          type: string
+        example:
+          - May 09
+          - May 10
+          - May 11
+          - May 12
+          - May 13
+          - May 14
+          - May 15
+        description: Specific unit of measure or associated grouping titles.
+      deltas:
+        type: array
+        items:
+          type: number
+        example:
+          - 12
+          - -12
+          - -13
+          - 40
+          - 19
+          - -30
+          - 18
+        description: >-
+          Difference from previous time-segment (Assumes same duration length
+          immediately preceeding current specification)
+paths:
+  /:
+    get:
+      tags:
+        - store
+        - customer
+      parameters:
+        - name: storeId
+          in: query
+          type: number
+          description: The target store ID
+        - name: division
+          in: query
+          type: string
+          description: >-
+            This is how the data is portioned
+            Hourly = 24 hour period, divided by hour chunks
+            Daily = Daily periods, divided by days
+            Weekly = Weekly periods, divided by weeks
+            Monthly = Monthly periods, divided by months
+          enum:
+          - hourly
+          - daily
+          - weekly
+          - monthly
+        - name: startDate
+          in: query
+          type: number
+          description: 'Start date filter, e.g. 1494806400'
+        - name: endDate
+          in: query
+          type: number
+          description: 'End date filter, e.g. 1494806400'
+      responses:
+        '200':
+          description: Analytic data response
+          schema:
+            $ref: '#/definitions/StoreAnalyticRangeResult'
