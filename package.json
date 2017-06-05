@@ -33,10 +33,12 @@
     "babel-preset-react": "^6.24.1",
     "babel-preset-stage-2": "^6.24.1",
     "css-loader": "^0.28.4",
+    "material-ui": "^0.18.1",
     "react": "^15.5.4",
     "react-dom": "^15.5.4",
     "react-router": "^4.1.1",
     "react-router-dom": "^4.1.1",
+    "react-tap-event-plugin": "^2.0.1",
     "style-loader": "^0.18.1",
     "webpack": "^2.6.1"
   }
