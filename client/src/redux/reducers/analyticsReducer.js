@@ -8,7 +8,8 @@ const defaults = {
     "deltaDate": 1493596800,
     "data": [
       {
-        "type": "visitors",
+        "type": "count",
+        "key": "visitors",
         "name": "No. of Visits",
         "values": [
           49,
@@ -32,14 +33,15 @@ const defaults = {
           9,
           -2,
           -17,
-          31,
+          -31,
           12,
           -10,
           28
         ]
       },
       {
-        "type": "unique_visits",
+        "type": "count",
+        "key": "unique_visits",
         "name": "Unique Visitors",
         "values": [
           44,
@@ -67,6 +69,38 @@ const defaults = {
           19,
           -30,
           18
+        ]
+      },
+      {
+        "type": "minutes",
+        "key": "average_duration",
+        "name": "Avg. Duration",
+        "values": [
+          44,
+          32,
+          19,
+          59,
+          78,
+          48,
+          64
+        ],
+        "units": [
+          "May 09",
+          "May 10",
+          "May 11",
+          "May 12",
+          "May 13",
+          "May 14",
+          "May 15"
+        ],
+        "deltas": [
+          1,
+          -2,
+          -3,
+          4,
+          9,
+          -3,
+          8
         ]
       }
     ]

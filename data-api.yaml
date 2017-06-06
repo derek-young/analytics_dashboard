@@ -53,6 +53,12 @@ definitions:
       - units
     properties:
       type:
+          type: string
+          example: minutes
+          enum:
+            - minutes
+            - count
+      key:
         type: string
         example: unique_visits
         enum:
@@ -123,15 +129,15 @@ paths:
           type: string
           description: >-
             This is how the data is portioned
-            Hourly = 24 hour period, divided by hour chunks
-            Daily = Daily periods, divided by days
-            Weekly = Weekly periods, divided by weeks
-            Monthly = Monthly periods, divided by months
+            Hour = 24 hour period, divided by hour chunks
+            Day = Weekly period, divided by days
+            Week = Monthly period, divided by weeks
+            Month = Quartly periods, divided by months
           enum:
-          - hourly
-          - daily
-          - weekly
-          - monthly
+          - hour
+          - day
+          - week
+          - month
         - name: startDate
           in: query
           type: number

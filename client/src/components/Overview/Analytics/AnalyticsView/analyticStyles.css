@@ -1,12 +1,49 @@
-.menu {
-  max-width: 240px;
+.main, .metric, .data, .icon, .data__top {
+  display: flex;
 }
 
-.heading {
-  margin-left: 36px;
-  margin-bottom: 10px;
-  color: #b3b3b3;
+.metric {
+  height: 95px;
+  width: 250px;
+  background-color: white;
+  box-shadow: -3px 2px 2px 0 rgba(119, 151, 178, 0.16);
+  margin-right: 15px;
+}
+
+.icon {
+  background-color: #f2f2f2;
+  width: 60px;
+  justify-content: center;
+  align-items: center;
+}
+
+.data {
+  padding: 0 10px;
+  align-items: center;
+}
+
+.data__top {
+  align-items: baseline;
+}
+
+.data__bottom {
+  font-size: 33px;
+  color: #9b9b9b;
+}
+
+.data__title {
+  font-size: 15px;
+  color: #8ca0b3;
+}
+
+.data__delta-positive, .data__delta-negative {
   font-size: 12px;
-  font-weight: 100;
-  text-transform: uppercase;
+}
+
+.data__delta-positive {
+  color: limegreen;
+}
+
+.data__delta-negative {
+  color: red;
 }
