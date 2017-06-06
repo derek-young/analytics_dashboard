@@ -1,0 +1,30 @@
+.main, .left {
+  display: flex;
+}
+
+.main {
+  background-color: #EEE;
+  height: 47px;
+  justify-content: space-between;
+  align-items: center;
+  color: #4a4a4a;
+}
+
+.left > * {
+  padding: 5px 20px;
+  font-family: 'Helvetica Neue', sans-serif;
+  border: 2px solid #EEE;
+  border-radius: 18px;
+}
+
+.left > *:hover {
+  cursor: pointer;
+}
+
+.selected, .left > *:hover {
+  background-color: #fcfcfc;
+}
+
+.selected {
+  border: 2px solid #a4a4a4;
+}

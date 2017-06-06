@@ -1,9 +1,10 @@
 .menu {
-  width: 70%;
+  max-width: 240px;
 }
 
 .heading {
   margin-left: 36px;
+  margin-bottom: 10px;
   color: #b3b3b3;
   font-size: 12px;
   font-weight: 100;

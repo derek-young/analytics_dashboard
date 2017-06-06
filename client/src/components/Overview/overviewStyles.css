@@ -1,8 +1,14 @@
 .main {
-  padding: 20px;
+  width: 100%;
+  padding: 20px 0;
+}
+
+.main > * {
+  margin-bottom: 20px;
+  padding: 0 20px;
 }
 
 .header {
-  font-size: 40px;
+  font-size: 25px;
   color: #4a4a4a;
 }

@@ -15,8 +15,7 @@ import navStyles from './navStyles.css';
 const menu = {
   paddingTop: 20,
   paddingBottom: 20,
-  backgroundColor: '#4a4a4a',
-  width: 240
+  backgroundColor: '#4a4a4a'
 };
 
 const Nav = () => (
