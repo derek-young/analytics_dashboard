@@ -1,10 +1,11 @@
 import React from 'react';
 import { render } from 'react-dom';
-import { HashRouter as Router } from 'react-router-dom';
+import { Provider } from 'react-redux';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import getMuiTheme from 'material-ui/styles/getMuiTheme';
 import injectTapEventPlugin from 'react-tap-event-plugin';
 
+import store from './redux/store';
 import customTheme from './customTheme';
 import App from './components/App';
 
@@ -13,8 +14,8 @@ import App from './components/App';
 injectTapEventPlugin();
 
 render(
-  <Router>
+  <Provider store={store}>
     <MuiThemeProvider muiTheme={getMuiTheme(customTheme)}>
       <App />
     </MuiThemeProvider>
-  </Router>, document.getElementById('app'));
+  </Provider>, document.getElementById('app'));

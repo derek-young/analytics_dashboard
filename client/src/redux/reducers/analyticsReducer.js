@@ -1,0 +1,102 @@
+const defaults = {
+  isFetching: false,
+  isRetrieved: false,
+  division: 'hour',
+  analytics: {
+    "startDate": 1494288000,
+    "endDate": 1494806400,
+    "deltaDate": 1493596800,
+    "data": [
+      {
+        "type": "visitors",
+        "name": "No. of Visits",
+        "values": [
+          49,
+          40,
+          21,
+          65,
+          78,
+          49,
+          68
+        ],
+        "units": [
+          "May 09",
+          "May 10",
+          "May 11",
+          "May 12",
+          "May 13",
+          "May 14",
+          "May 15"
+        ],
+        "deltas": [
+          9,
+          -2,
+          -17,
+          31,
+          12,
+          -10,
+          28
+        ]
+      },
+      {
+        "type": "unique_visits",
+        "name": "Unique Visitors",
+        "values": [
+          44,
+          32,
+          19,
+          59,
+          78,
+          48,
+          64
+        ],
+        "units": [
+          "May 09",
+          "May 10",
+          "May 11",
+          "May 12",
+          "May 13",
+          "May 14",
+          "May 15"
+        ],
+        "deltas": [
+          12,
+          -12,
+          -13,
+          40,
+          19,
+          -30,
+          18
+        ]
+      }
+    ]
+  }
+};
+
+export default function analyticsReducer(state = defaults, action) {
+  switch(action.type) {
+    case 'RETRIEVING_ANALYTICS': {
+      return {
+        ...state,
+        isFetching: true,
+        isRetrieved: false
+      };
+    }
+    case 'ANALYTICS_RETRIEVED': {
+      return {
+        ...state,
+        isFetching: false,
+        isRetrieved: true,
+        analytics: action.payload
+      };
+    }
+
+    case 'UPDATE_DIVISION': {
+      return {
+        ...state,
+        division: action.payload
+      };
+    }
+  }
+  return state;
+};
