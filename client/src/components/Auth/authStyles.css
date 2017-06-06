@@ -1,0 +1,50 @@
+.authHeader {
+  padding-bottom: 8px;
+}
+
+.authContainer {
+  padding: 30px 40px;
+  margin: 0 auto;
+  width: 570px;
+}
+
+.authContent {
+  background: white;
+  box-shadow: 1px 3px 8px rgba(0, 0, 0, 0.2);
+  padding: 10px;
+}
+
+.authBody {
+  padding-top: 40px;
+}
+
+.authNav button {
+  font-size: 12px;
+  width: 70px;
+}
+
+.error-text {
+  padding-top: 10px;
+  font-size: 12px;
+  color: red;
+}
+
+.signin, .signup {
+  padding: 20px;
+  height: 230px;
+}
+
+.signin h2, .signup h2 {
+  margin-top: 0;
+}
+
+.signin input, .signup input {
+  box-shadow: none;
+  border-radius: 3px;
+  border: 1px solid #d8d8d8;
+  height: 30px;
+  width: 200px;
+  font-size: 14px;
+  padding: 0 5px;
+  margin-bottom: 5px;
+}
