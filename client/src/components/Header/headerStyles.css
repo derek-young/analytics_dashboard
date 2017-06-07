@@ -18,7 +18,13 @@
 }
 
 .right {
-  margin-right: 30px;
+  margin-right: 60px;
   display: flex;
+  align-items: center;
+}
+
+.profile {
+  display: flex;
+  width: 70px;
   align-items: center;
 }

@@ -13,10 +13,11 @@ import Nav from './Nav/Nav';
 import Authorization from './Auth/Auth';
 import PrivateRoute from './Auth/PrivateRoute';
 import Overview from './Overview/Overview';
+import Settings from './Settings/Settings';
 
-const App = ({ auth, location }) => (
+const App = ({ auth, location, history }) => (
   <div>
-    <Header />
+    <Header history={history} />
     <div className={appStyles.body}>
       {location.pathname !== '/auth' && auth.isAuthenticated && <Nav />}
       <Switch>
@@ -24,6 +25,11 @@ const App = ({ auth, location }) => (
         <PrivateRoute
           exact path="/overview"
           component={Overview}
+          isAuthenticated={auth.isAuthenticated}
+        />
+        <PrivateRoute
+          exact path="/settings"
+          component={Settings}
           isAuthenticated={auth.isAuthenticated}
         />
 

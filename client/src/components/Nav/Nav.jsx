@@ -51,11 +51,13 @@ const Nav = () => (
         <p className={navStyles.heading}>
           Profile
         </p>
-        <MenuItem
-          style={getMenuItemStyle({ path: '#/settings' })}
-          primaryText="Settings"
-          leftIcon={<Settings />}
-        />
+        <Link to="/settings">
+          <MenuItem
+            style={getMenuItemStyle({ path: '#/settings' })}
+            primaryText="Settings"
+            leftIcon={<Settings />}
+          />
+        </Link>
       </Menu>
     </Paper>
   </div>
