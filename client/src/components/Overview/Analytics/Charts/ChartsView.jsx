@@ -1,7 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 
-import { Data, DataSet } from './charts';
+import { Data, DataSet } from './chartHelpers';
 import chartStyles from './chartStyles.css';
 
 import LargeChart from './LargeChart';

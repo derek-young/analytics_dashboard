@@ -11,16 +11,15 @@
 .authContent {
   background: white;
   box-shadow: 1px 3px 8px rgba(0, 0, 0, 0.2);
-  padding: 10px;
 }
 
 .authBody {
   padding-top: 40px;
+  width: 100%;
 }
 
-.authNav button {
-  font-size: 12px;
-  width: 70px;
+.button button:hover {
+  opacity: 0.8;
 }
 
 .error-text {
@@ -35,7 +34,7 @@
 }
 
 .signin h2, .signup h2 {
-  margin-top: 0;
+  margin-bottom: 10px;
 }
 
 .signin input, .signup input {
