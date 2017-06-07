@@ -10,38 +10,57 @@ import analyticStyles from './analyticStyles.css';
 import SingleMetric from './SingleMetric';
 import DoubleMetric from './DoubleMetric';
 
-const icons = {
-  visitors: Group,
-  unique_visits: Person,
-  average_duration: Time
-};
-
 const iconStyles = {
   height: 30,
   width: 30
 };
 
-const AnalyticsView = ({ analytics }) => (
-  <div className={analyticStyles.main}>
-    {analytics.data.map(({ key, name, values, deltas, type }, i) => {
-      const value = values.reduce(sum);
-      const delta = deltas.reduce(sum);
-      const average = value / values.length;
+const AnalyticsView = ({ analytics }) => {
+  const {
+    visitors,
+    unique_visits: uniqueVisits,
+    visitors_ios: ios,
+    visitors_android: android,
+    average_duration: duration
+  } = analytics.data;
 
-      return (
-        <SingleMetric
-          key={i}
-          icon={icons[key]}
-          {...{ name, value, average, delta, type, iconStyles }}
-        />
-      );
-    })}
-    <DoubleMetric
-      icon={Chat}
-      iconStyles={iconStyles}
-    />
-  </div>
-);
+  visitors.icon = Group;
+  uniqueVisits.icon = Person;
+  duration.icon = Time;
+
+  const singleMetrics = [ visitors, uniqueVisits, duration ];
+
+  return (
+    <div className={analyticStyles.main}>
+      {singleMetrics.map((metric, i) => {
+        const value = metric.values.reduce(sum);
+        const avg = value / metric.values.length;
+
+        return (
+          <SingleMetric
+            value={value}
+            delta={metric.deltas.reduce(sum)}
+            average={avg}
+            iconStyles={iconStyles}
+            {...metric}
+          />
+        );
+      })}
+      <DoubleMetric
+        metric1={{
+          label: ios.name,
+          value: ios.values.reduce(sum)
+        }}
+        metric2={{
+          label: android.name,
+          value: android.values.reduce(sum)
+        }}
+        icon={Chat}
+        iconStyles={iconStyles}
+      />
+    </div>
+  );
+};
 
 function sum(a, b) {
   return a + b;

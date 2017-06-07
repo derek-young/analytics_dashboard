@@ -37,11 +37,11 @@ const SingleMetric = ({
         {
           type === 'minutes'
           ?
-          <div className={analyticStyles['data__bottom-mins']}>
+          <div className={analyticStyles['data__bottom-small']}>
             {average.toFixed(2) + ' mins'}
           </div>
           :
-          <div className={analyticStyles['data__bottom-count']}>
+          <div className={analyticStyles['data__bottom-large']}>
             {value.toLocaleString()}
           </div>
         }
