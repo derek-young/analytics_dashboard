@@ -15,11 +15,10 @@ export function authenticateUser() {
 
 export function signinSignup(type, creds) {
   const options = type === 'get' ? { params: { ...creds }} : creds;
-  const path = type === 'get' ? '/api/user/signin' : '/api/user';
 
   requestSignin(creds);
 
-  return axios[type](path, options)
+  return axios[type]('/api/user', options)
     .then(res => res.data)
     .then(({ success, token, access }) => {
       if (success) {

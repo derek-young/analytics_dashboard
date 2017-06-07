@@ -1,45 +1,50 @@
 import React from 'react';
 import {
-  HashRouter as Router,
   Redirect,
   Route,
   Switch
 } from 'react-router-dom';
+import { connect } from 'react-redux';
 
 import appStyles from './appStyles.css';
 
 import Header from './Header/Header';
 import Nav from './Nav/Nav';
+import Authorization from './Auth/Auth';
 import PrivateRoute from './Auth/PrivateRoute';
 import Overview from './Overview/Overview';
+import Settings from './Settings/Settings';
 
-const App = () => (
-  <Router>
-    <div>
-      <Header />
-      <div className={appStyles.body}>
-        <Nav />
-        <div className={appStyles.content}>
-          <Switch>
-            <PrivateRoute
-              exact path="/overview"
-              component={Overview}
-              isAuthenticated={true}
-            />
-            {/* <Route path="/auth" component={Authorization} /> */}
+const App = ({ auth, location, history }) => (
+  <div>
+    <Header history={history} />
+    <div className={appStyles.body}>
+      {location.pathname !== '/auth' && auth.isAuthenticated && <Nav />}
+      <Switch>
+        <Route path="/auth" component={Authorization} />
+        <PrivateRoute
+          exact path="/overview"
+          component={Overview}
+          isAuthenticated={auth.isAuthenticated}
+        />
+        <PrivateRoute
+          exact path="/settings"
+          component={Settings}
+          isAuthenticated={auth.isAuthenticated}
+        />
 
-            {/* Catch all - redirect to /overview */}
-            <Route render={props => (
-              <Redirect to={{
-                pathname: '/overview',
-                state: { from: props.location }
-              }} />
-            )} />
-          </Switch>
-        </div>
-      </div>
+        {/* Catch all - redirect to /overview */}
+        <Route render={props => (
+          <Redirect to={{
+            pathname: '/overview',
+            state: { from: props.location }
+          }} />
+        )} />
+      </Switch>
     </div>
-  </Router>
+  </div>
 );
 
-export default App;
+export default connect((store) => ({
+  auth: store.auth
+}))(App);
