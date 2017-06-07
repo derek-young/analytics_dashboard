@@ -26,12 +26,13 @@ const AnalyticsView = ({ analytics }) => (
     {analytics.data.map(({ key, name, values, deltas, type }, i) => {
       const value = values.reduce(sum);
       const delta = deltas.reduce(sum);
+      const average = value / values.length;
 
       return (
         <SingleMetric
           key={i}
           icon={icons[key]}
-          {...{ name, value, delta, type, iconStyles }}
+          {...{ name, value, average, delta, type, iconStyles }}
         />
       );
     })}

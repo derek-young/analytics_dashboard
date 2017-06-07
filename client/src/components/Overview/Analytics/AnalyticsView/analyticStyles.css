@@ -26,9 +26,16 @@
   align-items: baseline;
 }
 
-.data__bottom {
-  font-size: 33px;
+.data__bottom-count, .data__bottom-mins {
   color: #9b9b9b;
+}
+
+.data__bottom-count {
+  font-size: 33px;
+}
+
+.data__bottom-mins {
+  font-size: 28px;
 }
 
 .data__title {

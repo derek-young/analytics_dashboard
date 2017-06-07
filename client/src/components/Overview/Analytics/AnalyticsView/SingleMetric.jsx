@@ -7,11 +7,11 @@ const SingleMetric = ({
   delta,
   value,
   type,
+  average,
   icon: Icon,
   iconStyles
 }) => (
   <div className={analyticStyles.metric}>
-    {console.log(type)}
     <div className={analyticStyles.icon}>
       <Icon style={iconStyles} />
     </div>
@@ -22,7 +22,8 @@ const SingleMetric = ({
             {name}
           </span>
           &nbsp;
-          {delta >= 0
+          {
+            delta >= 0
             ?
             <span className={analyticStyles['data__delta-positive']}>
               +{delta}
@@ -33,13 +34,20 @@ const SingleMetric = ({
             </span>
           }
         </div>
-        <div className={analyticStyles['data__bottom']}>
-          {value}
-        </div>
+        {
+          type === 'minutes'
+          ?
+          <div className={analyticStyles['data__bottom-mins']}>
+            {average.toFixed(2) + ' mins'}
+          </div>
+          :
+          <div className={analyticStyles['data__bottom-count']}>
+            {value.toLocaleString()}
+          </div>
+        }
       </div>
     </div>
   </div>
 );
-
 
 export default SingleMetric;

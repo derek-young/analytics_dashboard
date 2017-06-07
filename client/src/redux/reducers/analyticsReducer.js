@@ -12,12 +12,12 @@ const defaults = {
         "key": "visitors",
         "name": "No. of Visits",
         "values": [
-          49,
-          40,
-          21,
-          65,
-          78,
-          49,
+          149,
+          240,
+          121,
+          365,
+          478,
+          149,
           68
         ],
         "units": [
