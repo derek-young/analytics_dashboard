@@ -1,72 +1,102 @@
 import React from 'react';
 import { connect } from 'react-redux';
 
-import { Data, DataSet, renderMediumChart } from './charts';
+import { Data, DataSet } from './charts';
 import chartStyles from './chartStyles.css';
 
+import LargeChart from './LargeChart';
+import MediumChart from './MediumChart';
+import SmallChart from './SmallChart';
+
 class ChartsView extends React.Component {
-  componentDidMount() {
-    const { analytics: { data }} = this.props;
-    const { visitors, unique_visits: uniqueVisits } = data;
-    const { name, units, values } = visitors;
-    const visitorsData = new Data({ labels: units });
-    const visitorsDataSet = new DataSet({
-      label: name,
-      data: values,
-      backgroundColor: new Array(values.length).fill('#767676')
-    });
-
-    visitorsData.datasets.push(visitorsDataSet);
-
-    renderMediumChart({ data: visitorsData });
-  }
-
-  // data: {
-  //   labels: ["Red", "Blue", "Yellow", "Green", "Purple", "Orange"],
-  //   datasets: [{
-  //     label: '# of Votes',
-  //     data: [12, 19, 3, 5, 2, 3],
-  //     backgroundColor: [
-  //       'rgba(255, 99, 132, 0.2)',
-  //       'rgba(54, 162, 235, 0.2)',
-  //       'rgba(255, 206, 86, 0.2)',
-  //       'rgba(75, 192, 192, 0.2)',
-  //       'rgba(153, 102, 255, 0.2)',
-  //       'rgba(255, 159, 64, 0.2)'
-  //     ],
-  //     borderColor: [
-  //       'rgba(255,99,132,1)',
-  //       'rgba(54, 162, 235, 1)',
-  //       'rgba(255, 206, 86, 1)',
-  //       'rgba(75, 192, 192, 1)',
-  //       'rgba(153, 102, 255, 1)',
-  //       'rgba(255, 159, 64, 1)'
-  //     ],
-  //     borderWidth: 1
-  //   }]
-  // },
-
   render() {
+    const { analytics: { data }} = this.props;
+    const { visitors_ios: ios, visitors_android: android } = data;
+
+    const iosTotal = ios.values.reduce((a, b) => a + b);
+    const androidTotal = android.values.reduce((a, b) => a + b);
+    const iosPercent = (iosTotal / (iosTotal + androidTotal) * 100).toFixed(2);
+    const androidPercent = (androidTotal / (iosTotal + androidTotal) * 100).toFixed(2);
+
     return (
       <div>
-        <div>
-          <canvas
-            id="medium-chart"
-            className={chartStyles['medium-chart']}>
-          </canvas>
-          <canvas
-            id="small-chart"
-            className={chartStyles['small-chart']}>
-          </canvas>
+        <div className={chartStyles['upper-charts']}>
+          <MediumChart
+            data={this.getNewVsUniqueData(data)}
+            title= "New Customers vs. Returning Customers"
+          />
+          <SmallChart
+            data={this.getDeviceTypeData(data)}
+            title="Device Type"
+            footerMetrics={[
+              { value: iosPercent + '%', label: 'iOS' },
+              { value: androidPercent + '%', label: 'Android' }
+            ]}
+          />
         </div>
-        <div>
-          <canvas
-            id="large-chart"
-            className={chartStyles['large-chart']}>
-          </canvas>
-        </div>
+        <LargeChart
+          data={this.getVisitDurationData(data)}
+          title="Customer Visit Duration"
+        />
       </div>
     );
+  }
+
+  getNewVsUniqueData({ visitors, unique_visits: uniqueVisits }) {
+    const newVsUniqueData = new Data({ labels: visitors.units });
+    const visitorsDataSet = new DataSet({
+      label: visitors.name,
+      data: visitors.values,
+      backgroundColor: new Array(visitors.values.length).fill('#767676')
+    });
+    const uniqueVisitsDataSet = new DataSet({
+      label: uniqueVisits.name,
+      data: uniqueVisits.values
+    });
+
+    newVsUniqueData.datasets.push(visitorsDataSet);
+    newVsUniqueData.datasets.push(uniqueVisitsDataSet);
+
+    return newVsUniqueData;
+  }
+
+  getDeviceTypeData({ visitors_ios: ios, visitors_android: android }) {
+    const iosTotal = ios.values.reduce((a, b) => a + b);
+    const androidTotal = android.values.reduce((a, b) => a + b);
+    const iosPercent = (iosTotal / (iosTotal + androidTotal) * 100).toFixed(2);
+    const androidPercent = (androidTotal / (iosTotal + androidTotal) * 100).toFixed(2);
+
+    const deviceDataSet = new DataSet({
+      label: 'iOS',
+      data: [ iosPercent, androidPercent ],
+      backgroundColor: [ '#9b9b9b', '#d6d6d6' ]
+    });
+
+    const deviceTypeData = new Data({
+      labels: [ 'iOS', 'Android' ],
+      datasets: [ deviceDataSet ]
+    });
+
+    return deviceTypeData;
+  }
+
+  getVisitDurationData({ average_duration: duration }) {
+    const durationDataSet = new DataSet({
+      label: duration.name,
+      data: duration.values,
+      borderColor: "#535353",
+      borderWidth: 3,
+      fill: false
+    });
+
+    console.log(durationDataSet);
+
+    const deviceTypeData = new Data({
+      labels: duration.units ,
+      datasets: [ durationDataSet ]
+    });
+
+    return deviceTypeData;
   }
 }
 

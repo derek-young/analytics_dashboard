@@ -19,22 +19,24 @@ const App = () => (
       <Header />
       <div className={appStyles.body}>
         <Nav />
-        <Switch>
-          <PrivateRoute
-            exact path="/overview"
-            component={Overview}
-            isAuthenticated={true}
-          />
-          {/* <Route path="/auth" component={Authorization} /> */}
+        <div className={appStyles.content}>
+          <Switch>
+            <PrivateRoute
+              exact path="/overview"
+              component={Overview}
+              isAuthenticated={true}
+            />
+            {/* <Route path="/auth" component={Authorization} /> */}
 
-          {/* Catch all - redirect to /overview */}
-          <Route render={props => (
-            <Redirect to={{
-              pathname: '/overview',
-              state: { from: props.location }
-            }} />
-          )} />
-        </Switch>
+            {/* Catch all - redirect to /overview */}
+            <Route render={props => (
+              <Redirect to={{
+                pathname: '/overview',
+                state: { from: props.location }
+              }} />
+            )} />
+          </Switch>
+        </div>
       </div>
     </div>
   </Router>

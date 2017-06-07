@@ -13,6 +13,8 @@ import Settings from 'material-ui/svg-icons/action/settings';
 import navStyles from './navStyles.css';
 
 const menu = {
+  position: 'fixed',
+  overflowY: 'auto',
   paddingTop: 20,
   paddingBottom: 20,
   height: '100%',

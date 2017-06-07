@@ -1,3 +1,9 @@
 .body {
   display: flex;
+  padding-top: 80px;
+}
+
+.content {
+  width: 100%;
+  padding-left: 224px;
 }

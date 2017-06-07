@@ -4,6 +4,9 @@
   background-color: #f4f4f4;
   display: flex;
   justify-content: space-between;
+  position: fixed;
+  top: 0;
+  z-index: 1000;
 }
 
 .logo {
