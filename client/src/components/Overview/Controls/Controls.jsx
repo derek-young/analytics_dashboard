@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import SelectField from 'material-ui/SelectField';
 import MenuItem from 'material-ui/MenuItem';
 
-import { updateDivision } from '../../../../redux/actions';
+import { updateDivision } from '../../../redux/actions';
 import controlStyles from './controlStyles.css';
 import dropdownStyles from './dropdownStyles';
 

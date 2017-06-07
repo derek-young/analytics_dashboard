@@ -25,6 +25,8 @@ class Authorization extends React.Component {
   }
 
   render() {
+    const { history } = this.props;
+
     return (
       <div className={authStyles.authBody}>
         <div className={authStyles.authContainer}>
@@ -37,10 +39,10 @@ class Authorization extends React.Component {
               onChange={this.handleChange.bind(this)}
             >
               <Tab label="Signin" value="signin">
-                <Signin />
+                <Signin history={history} />
               </Tab>
               <Tab label="Signup" value="signup">
-                <Signup />
+                <Signup history={history} />
               </Tab>
             </Tabs>
           </div>

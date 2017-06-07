@@ -89,8 +89,6 @@ class ChartsView extends React.Component {
       fill: false
     });
 
-    console.log(durationDataSet);
-
     const deviceTypeData = new Data({
       labels: duration.units ,
       datasets: [ durationDataSet ]

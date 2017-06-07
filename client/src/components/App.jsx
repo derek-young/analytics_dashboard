@@ -1,6 +1,5 @@
 import React from 'react';
 import {
-  HashRouter as Router,
   Redirect,
   Route,
   Switch
@@ -15,32 +14,29 @@ import Authorization from './Auth/Auth';
 import PrivateRoute from './Auth/PrivateRoute';
 import Overview from './Overview/Overview';
 
-const App = ({ auth }) => (
-  <Router>
-    <div>
-      <Header />
-      <div className={appStyles.body}>
-        {auth.isAuthenticated && <Nav />}
-        <Switch>
-          <Route path="/auth" component={Authorization} />
-          <PrivateRoute
-            exact path="/overview"
-            component={Overview}
-            isAuthenticated={auth.isAuthenticated}
-          />
+const App = ({ auth, location }) => (
+  <div>
+    <Header />
+    <div className={appStyles.body}>
+      {location.pathname !== '/auth' && auth.isAuthenticated && <Nav />}
+      <Switch>
+        <Route path="/auth" component={Authorization} />
+        <PrivateRoute
+          exact path="/overview"
+          component={Overview}
+          isAuthenticated={auth.isAuthenticated}
+        />
 
-          {/* Catch all - redirect to /overview */}
-          <Route render={props => (
-            <Redirect to={{
-              pathname: '/overview',
-              state: { from: props.location }
-            }} />
-          )} />
-        </Switch>
-      </div>
-
+        {/* Catch all - redirect to /overview */}
+        <Route render={props => (
+          <Redirect to={{
+            pathname: '/overview',
+            state: { from: props.location }
+          }} />
+        )} />
+      </Switch>
     </div>
-  </Router>
+  </div>
 );
 
 export default connect((store) => ({

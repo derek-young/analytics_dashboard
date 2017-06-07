@@ -1,6 +1,7 @@
 import React from 'react';
 import { render } from 'react-dom';
 import { Provider } from 'react-redux';
+import { HashRouter as Router, Route } from 'react-router-dom';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import getMuiTheme from 'material-ui/styles/getMuiTheme';
 import injectTapEventPlugin from 'react-tap-event-plugin';
@@ -16,6 +17,8 @@ injectTapEventPlugin();
 render(
   <Provider store={store}>
     <MuiThemeProvider muiTheme={getMuiTheme(customTheme)}>
-      <App />
+      <Router>
+        <Route path="/" component={App} />
+      </Router>
     </MuiThemeProvider>
   </Provider>, document.getElementById('app'));

@@ -5,7 +5,7 @@ const dbconfig = require('../../db/dbconfig.js');
 const controller = {
   signin: function(req, res, next) {
     //Retrieve user from DB and authenticate
-    User.findOne({
+    return User.findOne({
       where: {
         username: req.query.username
       }
@@ -34,7 +34,7 @@ const controller = {
   create: function(req, res, next) {
     const password = User.generateHash(req.body.password);
 
-    User.findOrCreate({
+    return User.findOrCreate({
       where: {
         username: req.body.username
       },
