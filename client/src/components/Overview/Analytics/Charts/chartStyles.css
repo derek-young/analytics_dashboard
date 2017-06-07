@@ -1,0 +1,70 @@
+.upper-charts, .chart-footer, .device-metric {
+  display: flex;
+}
+
+.upper-charts {
+  justify-content: space-between;
+  margin: 20px 0;
+}
+
+.chart-heading, .metric-label, .metric-value {
+  font-family: 'Helvetica Neue', sans-serif;
+}
+
+.chart-heading {
+  background-color: #9b9b9b;
+  border-radius: 5px 5px 0 0;
+  padding: 0 20px;
+  height: 50px;
+  line-height: 50px;
+  color: #ffffff;
+  font-size: 16px;
+  font-weight: 100;
+  letter-spacing: 1px;
+}
+
+.chart-footer {
+  justify-content: space-around;
+  background-color: #f5f5f5;
+  height: 82px;
+}
+
+.device-metric {
+  width: 100px;
+  text-align: center;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.metric-value {
+  color: #4a4a4a;
+  font-size: 22px;
+}
+
+.metric-label {
+  color: #9a9a9a;
+  font-size: 12px;
+}
+
+.large-chart-canvas, .medium-chart-canvas, .small-chart-canvas {
+  background-color: white;
+}
+
+.large-chart-canvas, .medium-chart-canvas, .chart-footer {
+  border-radius: 0 0 5px 5px;
+}
+
+.large-chart-canvas {
+  width: calc(100% - 40px);
+  padding: 20px;
+}
+
+.medium-chart-canvas {
+  width: 695px;
+  padding: 20px;
+}
+
+.small-chart-canvas {
+  width: 220px;
+  padding: 20px 40px;
+}

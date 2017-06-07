@@ -8,9 +8,12 @@
   box-shadow: -3px 2px 2px 0 rgba(119, 151, 178, 0.16);
 }
 
+.main {
+  justify-content: space-between;
+}
+
 .metric {
   width: 245px;
-  margin-right: 15px;
 }
 
 .double-metric {
