@@ -1,0 +1,84 @@
+.main, .metric, .double-metric, .data, .double-data, .double-data > div, .icon, .data__top {
+  display: flex;
+}
+
+.metric, .double-metric {
+  height: 95px;
+  background-color: white;
+  box-shadow: -3px 2px 2px 0 rgba(119, 151, 178, 0.16);
+}
+
+.metric {
+  width: 245px;
+  margin-right: 15px;
+}
+
+.double-metric {
+  width: 260px;
+}
+
+.icon {
+  background-color: #f2f2f2;
+  width: 60px;
+  justify-content: center;
+  align-items: center;
+}
+
+.data, .double-data {
+  align-items: center;
+}
+
+.data {
+  padding: 0 10px;
+}
+
+.double-data {
+  width: 200px;
+  justify-content: center;
+}
+
+.data__top {
+  align-items: baseline;
+}
+
+.data__bottom-large, .data__bottom-small {
+  color: #9b9b9b;
+}
+
+.data__bottom-large {
+  font-size: 33px;
+}
+
+.data__bottom-small {
+  font-size: 28px;
+}
+
+.data__title {
+  font-size: 15px;
+  color: #8ca0b3;
+}
+
+.data__delta-positive, .data__delta-negative {
+  font-size: 12px;
+}
+
+.data__delta-positive {
+  color: limegreen;
+}
+
+.data__delta-negative {
+  color: red;
+}
+
+.metric1 > div, .metric2 > div {
+ padding-left: 8px;
+}
+
+.metric1 {
+  width: 80px;
+  border-right: solid 1px #c3c3c3;
+}
+
+.metric2 {
+  width: 105px;
+}
