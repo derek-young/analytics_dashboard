@@ -17,7 +17,7 @@ import Settings from './Settings/Settings';
 
 const App = ({ auth, location, history }) => (
   <div>
-    <Header history={history} />
+    <Header isAuthenticated={auth.isAuthenticated} history={history} />
     <div className={appStyles.body}>
       {location.pathname !== '/auth' && auth.isAuthenticated && <Nav />}
       <Switch>

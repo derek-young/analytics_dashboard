@@ -3,8 +3,9 @@ import { connect } from 'react-redux';
 import RaisedButton from 'material-ui/RaisedButton';
 
 import { signinSignup, signinError } from '../../redux/actions';
+import appStyles from '../appStyles.css';
 import authStyles from './authStyles.css';
-import buttonStyle from './buttonStyle';
+import buttonStyle from '../buttonStyle';
 
 const Signup = ({ error, history }) => (
   <div className={authStyles.signup}>
@@ -19,7 +20,7 @@ const Signup = ({ error, history }) => (
       <div>
         <input type="password" name="confirm_password" placeholder="Confirm Password" required />
       </div>
-      <div className={authStyles.button}>
+      <div className={appStyles.button}>
         <RaisedButton type="submit" label="Signup" {...buttonStyle} />
       </div>
     </form>
@@ -38,8 +39,9 @@ export function handleSignup(history, e) {
   }
 
   return signinSignup('post', { username, password })
-    .then(success => {
-      if (success) {
+    .then(response => {
+      console.log(response)
+      if (response === true) {
         return history.push('/overview');
       }
     });

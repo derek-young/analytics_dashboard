@@ -18,10 +18,6 @@
   width: 100%;
 }
 
-.button button:hover {
-  opacity: 0.8;
-}
-
 .error-text {
   padding-top: 10px;
   font-size: 12px;

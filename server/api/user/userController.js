@@ -1,6 +1,4 @@
-const jwt = require('jsonwebtoken');
 const User = require('./userModel.js');
-const dbconfig = require('../../db/dbconfig.js');
 
 const controller = {
   signin: function(req, res, next) {
@@ -12,16 +10,9 @@ const controller = {
     })
     .then(function(user) {
       if (user && User.validatePW(req.query.password, user.password)) {
-        const token = jwt.sign({
-          user: user.username,
-          id: user.id
-        },
-        dbconfig.secret, {
-          expiresIn: 86400 // expires in 24 hours
-        });
+        const token = User.generateToken(user.dataValues);
 
         return res.json({
-          username: user.username,
           success: true,
           token: token
         });
@@ -45,13 +36,7 @@ const controller = {
     .spread(function(user, created) {
       if (created) {
         console.log('User was successfully created');
-        const token = jwt.sign({
-          user: user.username,
-          id: user.id
-        },
-        dbconfig.secret, {
-          expiresIn: 86400 // expires in 24 hours
-        });
+        const token = User.generateToken(user.dataValues);
 
         return res.json({
           success: true,
@@ -59,29 +44,18 @@ const controller = {
         });
       }
 
-      return res.sendStatus(500);
+      return res.status(403).send('That username is taken, please select another');
     })
     .catch(function(err) {
-      if (err.original.code === '23505') {
-        return res.status(403).send('That username address already exists, please login');
-      }
       console.log('Error creating user: ', err);
       return res.sendStatus(500);
     });
   },
 
-  authenticate: function(req, res, next) {
-    const token = req.headers.token;
-    jwt.verify(token, dbconfig.secret, function(err, payload) {
-      if (err) {
-        res.status(403).send('Invalid authentication token');
-      } else {
-        res.status(200).send({
-          user: payload.user,
-          id: payload.id
-        });
-      }
-    });
+  settings: function(req, res, next) {
+    console.log('settings');
+
+    res.sendStatus(200);
   }
 };
 

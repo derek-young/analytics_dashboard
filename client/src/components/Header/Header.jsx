@@ -31,37 +31,39 @@ const menu = {
   backgroundColor: 'white'
 };
 
-const Header = ({ history }) => (
+const Header = ({ isAuthenticated, history }) => (
   <header className={headerStyles.main}>
     <div className={headerStyles.logo}>
       <img src="img/accenture-red-arrow-logo@2x.jpg" />
     </div>
-    <div className={headerStyles.right}>
-      <Notification style={notification}/>
-      <IconMenu
-        menuStyle={menu}
-        iconButtonElement={
-          <IconButton touch={true}>
-            <div className={headerStyles.profile}>
-              <Avatar
-                icon={<PersonOutline style={person} />}
-                style={avatar}
-              />
-              <ExpandMoreIcon />
-            </div>
-          </IconButton>
-        }
-      >
-        <MenuItem
-          primaryText="Signout"
-          onClick={signout}
-        />
-        <MenuItem
-          primaryText="Settings"
-          onClick={() => history.push('/settings')}
-        />
-      </IconMenu>
-    </div>
+    {isAuthenticated &&
+      <div className={headerStyles.right}>
+        <Notification style={notification} />
+        <IconMenu
+          menuStyle={menu}
+          iconButtonElement={
+            <IconButton touch={true}>
+              <div className={headerStyles.profile}>
+                <Avatar
+                  icon={<PersonOutline style={person} />}
+                  style={avatar}
+                />
+                <ExpandMoreIcon />
+              </div>
+            </IconButton>
+          }
+        >
+          <MenuItem
+            primaryText="Signout"
+            onClick={signout}
+          />
+          <MenuItem
+            primaryText="Settings"
+            onClick={() => history.push('/settings')}
+          />
+        </IconMenu>
+      </div>
+    }
   </header>
 );
 
