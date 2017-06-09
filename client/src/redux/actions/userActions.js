@@ -6,7 +6,7 @@ const { dispatch } = store;
 export function getUserSettings() {
   retrieveSettings();
 
-  return axios.get('/api/user/protected/settings', {
+  return axios.get('/api/protected/user/settings', {
       headers: { Authorization: 'Bearer ' + localStorage.token }
     })
     .then(res => res.data)
@@ -15,7 +15,7 @@ export function getUserSettings() {
 }
 
 export function updateUser({ name, email }) {
-  return axios.patch('/api/user/protected/settings', {
+  return axios.patch('/api/protected/user/settings', {
       token: localStorage.token,
       name,
       email

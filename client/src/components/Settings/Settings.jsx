@@ -38,8 +38,6 @@ class Settings extends React.Component {
       name, email, username, errorMessage, saveMessage
     } = this.props.user;
 
-    console.log(name, email);
-
     return (
       <div className={appStyles.content + ' ' + settingStyles.main}>
         <h2 className={appStyles.header}>
