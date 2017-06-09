@@ -3,6 +3,7 @@ import { HashRouter as Router } from 'react-router-dom';
 
 import store from '../../redux/store';
 const { dispatch } = store;
+import { receiveSettings } from '../actions';
 
 export function authenticateUser() {
   return axios.get('/api/user/authenticate', {
@@ -37,6 +38,7 @@ export function signinSignup(type, creds) {
 
 export function signout() {
   delete localStorage.token;
+  receiveSettings({});
   receiveSignout();
 }
 

@@ -35,9 +35,28 @@ User.generateToken = ({ id }) => {
   });
 }
 
-User.verifyToken = (token, callback) => {
-  return jwt.verify(token, dbconfig.secret, callback);
-}
+User.verifyToken = (req, res, next) => {
+  let token = req.headers.authorization || req.body.token;
+
+  if (token && token.indexOf('Bearer') >= 0) {
+    token = token.substring(7, token.length);
+  }
+
+  return jwt.verify(token, dbconfig.secret, (err, payload) => {
+    if (err) {
+      return res.status(403).send(err.message);
+    }
+
+    return User.findOne({
+        where: { id: payload.id }
+      }).then((user) => {
+        if (user) {
+          req.user = user.dataValues;
+        }
+        next();
+      });
+  });
+};
 
 db.sync();
 

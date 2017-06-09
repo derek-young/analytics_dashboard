@@ -14,15 +14,44 @@ export function getUserSettings() {
     .catch(err => console.log('Error retrieving user ', err));
 }
 
+export function updateUser({ name, email }) {
+  return axios.patch('/api/user/protected/settings', {
+      token: localStorage.token,
+      name,
+      email
+    })
+    .then(res => {
+      updateMessage({ type: 'save', message: 'Settings have been saved' });
+      setTimeout(() => (updateMessage({ type: 'save', message: '' })), 8000);
+      return res.data;
+    })
+    .then(receiveSettings)
+    .catch(err => console.log('Error saving user data ', err));
+}
+
 function retrieveSettings() {
   return dispatch({
     type: 'RETRIEVE_SETTINGS'
   });
 }
 
-function receiveSettings(user) {
+export function receiveSettings(user) {
   return dispatch({
     type: 'RECEIVE_SETTINGS',
     payload: user
+  });
+}
+
+export function updateMessage(payload) {
+  return dispatch({
+    type: 'UPDATE_MESSAGE',
+    payload
+  });
+}
+
+export function handleSettingsChange(field, e, value) {
+  return dispatch({
+    type: 'UPDATE_SETTING',
+    payload: { field, value }
   });
 }

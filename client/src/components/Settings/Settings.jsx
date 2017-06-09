@@ -4,7 +4,12 @@ import Paper from 'material-ui/Paper';
 import TextField from 'material-ui/TextField';
 import RaisedButton from 'material-ui/RaisedButton';
 
-import { getUserSettings } from '../../redux/actions';
+import {
+  getUserSettings,
+  updateUser,
+  updateMessage,
+  handleSettingsChange
+} from '../../redux/actions';
 import appStyles from '../appStyles.css';
 import buttonStyle from '../buttonStyle';
 import settingStyles from './settingStyles.css';
@@ -29,7 +34,11 @@ class Settings extends React.Component {
   }
 
   render() {
-    const { user: { username, name, email }} = this.props;
+    const {
+      name, email, username, errorMessage, saveMessage
+    } = this.props.user;
+
+    console.log(name, email);
 
     return (
       <div className={appStyles.content + ' ' + settingStyles.main}>
@@ -41,21 +50,29 @@ class Settings extends React.Component {
             <p className={settingStyles.subtext}>Username</p>
             <p className={settingStyles.text}>{username}</p>
             <TextField
-              defaultValue={name}
+              onChange={handleSettingsChange.bind(this, 'name')}
+              value={name || ''}
               floatingLabelText="Name"
               fullWidth={true}
               {...textFieldStyles}
             />
             <br />
             <TextField
-              defaultValue={email}
+              onChange={handleSettingsChange.bind(this, 'email')}
+              value={email || ''}
               floatingLabelText="Email"
               fullWidth={true}
+              type="email"
+              errorText={errorMessage}
               {...textFieldStyles}
             />
+            <br />
+            <div className={settingStyles.saveMessage}>
+              {saveMessage}
+            </div>
             <div className={appStyles.button + ' ' + settingStyles.button}>
               <RaisedButton
-                onClick={() => console.log('Settings submitted')}
+                onClick={this.handleSubmit.bind(this)}
                 label="Update Profile Settings"
                 {...buttonStyle}
               />
@@ -64,6 +81,21 @@ class Settings extends React.Component {
         </Paper>
       </div>
     );
+  }
+
+  handleSubmit() {
+    const { name, email } = this.props.user;
+    if (email && !this.validEmail(email)) {
+      updateMessage({ type: 'error', message: 'Please enter a valid email' });
+    } else {
+      updateMessage({ type: 'error', message: '' });
+      updateUser({ name, email });
+    }
+  }
+
+  validEmail(email) {
+    const re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+    return re.test(email);
   }
 }
 

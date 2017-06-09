@@ -3,7 +3,9 @@ const defaults = {
   name: '',
   email: '',
   fetchingSettings: false,
-  settingsFetched: false
+  settingsFetched: false,
+  errorMessage: '',
+  saveMessage: ''
 };
 
 export default function userReducer(state = defaults, action) {
@@ -24,6 +26,20 @@ export default function userReducer(state = defaults, action) {
         email,
         fetchingSettings: false,
         settingsFetched: true
+      };
+    }
+    case 'UPDATE_MESSAGE': {
+      const { type, message } = action.payload;
+      return {
+        ...state,
+        [type + 'Message']: message
+      };
+    }
+    case 'UPDATE_SETTING': {
+      const { field, value } = action.payload;
+      return {
+        ...state,
+        [field]: value
       };
     }
   }

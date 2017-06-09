@@ -52,10 +52,37 @@ const controller = {
     });
   },
 
-  settings: function(req, res, next) {
-    console.log('settings');
+  getSettings: function(req, res, next) {
+    if (req.user) {
+      const { username, name, email } = req.user;
+      return res.json({ username, name, email });
+    }
+    return res.sendStatus(500);
+  },
 
-    res.sendStatus(200);
+  updateSettings: function(req, res, next) {
+    if (req.user) {
+      const { id } = req.user;
+      const { name: updatedName, email: updatedEmail } = req.body;
+
+      return User.update(
+          { name: updatedName, email: updatedEmail },
+          { where: { id } }
+        )
+        .spread(function(rowsAffected) {
+          return User.findOne({
+              where: { id }
+            }).then((user) => {
+              req.user = user.dataValues;
+              return controller.getSettings(req, res);
+            });
+        })
+        .catch(function(err) {
+          console.log('Error saving user settings: ', err);
+          return res.sendStatus(500);
+        });
+    }
+    return res.sendStatus(500);
   }
 };
 
