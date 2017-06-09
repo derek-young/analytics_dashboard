@@ -1,4 +1,4 @@
-const dropdownStyles = {
+export const dropdownStyles = {
   style: {
     width: 270,
     height: 32,
@@ -26,5 +26,24 @@ const dropdownStyles = {
   }
 };
 
-
-export default dropdownStyles;
+export const dayPicker = {
+  style: {
+    width: 270,
+    height: 32,
+    borderWidth: 3,
+    borderStyle: 'solid',
+    borderColor: '#bcbcbc',
+    backgroundColor: '#f8f8f8',
+    display: 'block',
+    paddingLeft: 15
+  },
+  dialogContainerStyle: {
+    color: '#4a4a4a'
+  },
+  textFieldStyle: {
+    height: 32
+  },
+  underlineStyle: {
+    border: 'none'
+  }
+};

@@ -17,7 +17,7 @@ exports.default = {
   borderRadius: 2,
   palette: {
     primary1Color: '#4a4a4a',
-    primary2Color: '#ee2424',
+    primary2Color: '#4a4a4a',
     primary3Color: _colors.grey600,
     accent1Color: '#ee2424',
     accent2Color: '#ee2424',
