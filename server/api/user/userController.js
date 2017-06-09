@@ -3,9 +3,11 @@ const User = require('./userModel.js');
 const controller = {
   signin: function(req, res, next) {
     //Retrieve user from DB and authenticate
+    const username = req.query.username.toLowerCase();
+
     return User.findOne({
       where: {
-        username: req.query.username
+        username
       }
     })
     .then(function(user) {
@@ -24,10 +26,11 @@ const controller = {
 
   create: function(req, res, next) {
     const password = User.generateHash(req.body.password);
+    const username = req.body.username.toLowerCase();
 
     return User.findOrCreate({
       where: {
-        username: req.body.username
+        username
       },
       defaults: {
         password: password
