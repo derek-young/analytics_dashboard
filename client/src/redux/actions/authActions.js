@@ -3,12 +3,13 @@ import { HashRouter as Router } from 'react-router-dom';
 
 import store from '../../redux/store';
 const { dispatch } = store;
+import { receiveSettings } from '../actions';
 
 export function authenticateUser() {
   return axios.get('/api/user/authenticate', {
       headers: { Authorization: 'Bearer ' + localStorage.token }
     })
-    .then(res => res.data.access)
+    .then(res => res.data)
     .then(receiveSigin)
     .catch(err => console.log('Error retrieving user ', err));
 }
@@ -20,11 +21,10 @@ export function signinSignup(type, creds) {
 
   return axios[type]('/api/user', options)
     .then(res => res.data)
-    .then(({ success, token, access }) => {
-      if (success) {
-        receiveSigin(access);
+    .then(({ success, token, ...rest }) => {
+      if (success === true) {
+        receiveSigin(rest);
         localStorage.token = token;
-        localStorage.access = access;
       }
       return success;
     })
@@ -38,7 +38,7 @@ export function signinSignup(type, creds) {
 
 export function signout() {
   delete localStorage.token;
-  delete localStorage.access;
+  receiveSettings({});
   receiveSignout();
 }
 
@@ -48,10 +48,10 @@ function requestSignin() {
   });
 }
 
-function receiveSigin(access) {
+function receiveSigin(data) {
   return dispatch({
     type: 'SIGNIN_SUCCESS',
-    payload: access
+    payload: data
   });
 }
 

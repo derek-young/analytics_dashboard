@@ -9,7 +9,7 @@ import ChartsView from './Charts/ChartsView';
 
 const Overview = () => (
   <div className={appStyles.content + ' ' + overviewStyles.main}>
-    <h2 className={overviewStyles.header}>
+    <h2 className={appStyles.header}>
       Retail Packet Sniffer Dashboard
     </h2>
     <Controls />

@@ -7,3 +7,11 @@
   width: 100%;
   padding: 20px 0 20px 224px;
 }
+
+.header {
+  font-size: 25px;
+}
+
+.button button:hover {
+  opacity: 0.8;
+}
