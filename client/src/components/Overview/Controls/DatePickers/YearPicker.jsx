@@ -2,28 +2,58 @@ import React from 'react';
 import SelectField from 'material-ui/SelectField';
 import MenuItem from 'material-ui/MenuItem';
 
+import {
+  thisQuarter,
+  lastQuarter,
+  thisYearToDate,
+  lastYear,
+  lastYearToDate
+} from './dateParams';
+
 import { dropdownStyles } from './datePickerStyles';
 
 class YearPicker extends React.Component {
   state = {
-    value: 1
+    value: 0,
+    options: [
+      {
+        text: 'This Quarter',
+        action: thisQuarter
+      },
+      {
+        text: 'Last Quarter',
+        action: lastQuarter
+      },
+      {
+        text: 'This Year-to-date',
+        action: thisYearToDate
+      },
+      {
+        text: 'Last Year',
+        action: lastYear
+      },
+      {
+        text: 'Last Year-to-date',
+        action: lastYearToDate
+      }
+    ]
   };
 
   render() {
     return (
       <SelectField
         value={this.state.value}
-        onChange={this.handleDropdown}
+        onChange={this.handleChange}
         {...dropdownStyles}
       >
-        <MenuItem value={1} primaryText="Year 1" />
-        <MenuItem value={2} primaryText="Year 2" />
-        <MenuItem value={3} primaryText="Year 3" />
+        {this.state.options.map((option, i) => {
+          return <MenuItem key={i} value={i} primaryText={option.text} />
+        })}
       </SelectField>
     );
   }
 
-  handleDropdown = (event, index, value) => this.setState({ value });
+  handleChange = (event, index, value) => this.setState({ value });
 }
 
 export default YearPicker;

@@ -1,3 +1,20 @@
+Date.prototype.getFullMonth = function() {
+  const month = new Array();
+  month[0] = 'January';
+  month[1] = 'February';
+  month[2] = 'March';
+  month[3] = 'April';
+  month[4] = 'May';
+  month[5] = 'June';
+  month[6] = 'July';
+  month[7] = 'August';
+  month[8] = 'September';
+  month[9] = 'October';
+  month[10] = 'November';
+  month[11] = 'December';
+  return month[this.getMonth()];
+}
+
 export function fullMonthDate(date) {
   const DateTimeFormat = global.Intl.DateTimeFormat;
 
@@ -10,6 +27,7 @@ export function fullMonthDate(date) {
 
 export function buildWeeks() {
   const weeks = [];
+  const weeksToDisplay = 12;
   const today = new Date;
   const first = today.getDate() - today.getDay();
   const last = first + 6;
@@ -21,7 +39,7 @@ export function buildWeeks() {
     lastDay: new Date(lastDay)
   });
 
-  for (let i = 1; i < 12; i++) {
+  for (let i = 1; i < weeksToDisplay; i++) {
     const week = {
       firstDay: new Date(firstDay.setDate(firstDay.getDate() - 7)),
       lastDay: new Date(lastDay.setDate(lastDay.getDate() - 7))
@@ -31,4 +49,27 @@ export function buildWeeks() {
   }
 
   return weeks;
+}
+
+export function buildMonths() {
+  const months = [];
+  const lastXMonths = 12;
+  const today = new Date;
+
+  for (let i = 0; i < lastXMonths; i++) {
+    const month = new Month({
+      index: today.getMonth(),
+      fullName: `${today.getFullMonth()}, ${today.getFullYear()}`
+    });
+
+    months.push(month);
+    today.setMonth(today.getMonth() - 1);
+  }
+
+  return months;
+}
+
+function Month({ index, fullName }) {
+  this.index= index;
+  this.fullName = fullName;
 }

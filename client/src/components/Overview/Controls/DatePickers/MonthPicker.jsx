@@ -2,28 +2,30 @@ import React from 'react';
 import SelectField from 'material-ui/SelectField';
 import MenuItem from 'material-ui/MenuItem';
 
+import { buildMonths } from './dateHelpers';
 import { dropdownStyles } from './datePickerStyles';
 
 class MonthPicker extends React.Component {
   state = {
-    value: 1
+    value: 0,
+    months: buildMonths()
   };
 
   render() {
     return (
       <SelectField
         value={this.state.value}
-        onChange={this.handleDropdown}
+        onChange={this.handleChange}
         {...dropdownStyles}
       >
-        <MenuItem value={1} primaryText="Month 1" />
-        <MenuItem value={2} primaryText="Month 2" />
-        <MenuItem value={3} primaryText="Month 3" />
+        {this.state.months.map((month, i) => {
+          return <MenuItem key={i} value={i} primaryText={month.fullName} />
+        })}
       </SelectField>
     );
   }
 
-  handleDropdown = (event, index, value) => this.setState({ value });
+  handleChange = (event, index, value) => this.setState({ value });
 }
 
 export default MonthPicker;

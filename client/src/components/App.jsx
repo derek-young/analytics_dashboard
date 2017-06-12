@@ -19,7 +19,7 @@ const App = ({ auth, location, history }) => (
   <div>
     <Header isAuthenticated={auth.isAuthenticated} history={history} />
     <div className={appStyles.body}>
-      {location.pathname !== '/auth' && auth.isAuthenticated && <Nav />}
+      {!location.pathname.includes('/auth') && auth.isAuthenticated && <Nav />}
       <Switch>
         <Route path="/auth" component={Authorization} />
         <PrivateRoute

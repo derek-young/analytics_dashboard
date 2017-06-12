@@ -8,19 +8,14 @@ import { dropdownStyles } from './datePickerStyles';
 class WeekPicker extends React.Component {
   state = {
     value: 0,
-    weeks: buildWeeks(),
-    testWeeks: [
-      { value: 11, text: 'Week 11' },
-      { value: 12, text: 'Week 12' },
-      { value: 13, text: 'Week 13' }
-    ]
+    weeks: buildWeeks()
   };
 
   render() {
     return (
       <SelectField
         value={this.state.value}
-        onChange={this.handleDropdown}
+        onChange={this.handleChange}
         {...dropdownStyles}
       >
         {this.state.weeks.map((week, i) => {
@@ -32,7 +27,7 @@ class WeekPicker extends React.Component {
     );
   }
 
-  handleDropdown = (event, index, value) => this.setState({ value });
+  handleChange = (event, index, value) => this.setState({ value });
 }
 
 export default WeekPicker;
