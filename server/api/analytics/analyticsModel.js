@@ -21,8 +21,14 @@ const Analytics = db.define('analytic', {
   }
 });
 
-Analytics.buildResponseData = function({ analytics, division }) {
+Analytics.buildResponseData = function({
+  analytics,
+  division,
+  startDate,
+  endDate
+}) {
   const data = {};
+  const unitsValues = {};
 
   for (let i = 0; i < analytics.length; i++) {
     const analytic = analytics[i].dataValues;
@@ -34,13 +40,17 @@ Analytics.buildResponseData = function({ analytics, division }) {
       name: getAnalyticName(key)
     };
 
-    data[key].values = data[key].values || valueStructure(division);
-    data[key].units = data[key].units || getUnits(division);
+    unitsValues[key] = unitsValues[key] || getUnits(division, startDate, endDate);
+    addToValues(unitsValues[key], value, division, dateTime);
+  }
 
-    data[key].values.push(value);
+  for (let key in data) {
+    data[key].units = Object.keys(unitsValues[key]);
+    data[key].values = Object.values(unitsValues[key]);
   }
 
   console.log(data)
+
   return data;
 
     // {
@@ -75,160 +85,62 @@ Analytics.buildResponseData = function({ analytics, division }) {
     //       -10,
     //       28
     //     ]
-    //   },
-    //   "unique_visits": {
-    //     "type": "count",
-    //     "key": "unique_visits",
-    //     "name": "Unique Visitors",
-    //     "values": [
-    //       44,
-    //       32,
-    //       19,
-    //       59,
-    //       78,
-    //       48,
-    //       64
-    //     ],
-    //     "units": [
-    //       "May 09",
-    //       "May 10",
-    //       "May 11",
-    //       "May 12",
-    //       "May 13",
-    //       "May 14",
-    //       "May 15"
-    //     ],
-    //     "deltas": [
-    //       12,
-    //       -12,
-    //       -13,
-    //       40,
-    //       19,
-    //       -30,
-    //       18
-    //     ]
-    //   },
-    //   "average_duration": {
-    //     "type": "minutes",
-    //     "key": "average_duration",
-    //     "name": "Avg. Duration",
-    //     "values": [
-    //       44,
-    //       32,
-    //       19,
-    //       59,
-    //       78,
-    //       48,
-    //       64
-    //     ],
-    //     "units": [
-    //       "May 09",
-    //       "May 10",
-    //       "May 11",
-    //       "May 12",
-    //       "May 13",
-    //       "May 14",
-    //       "May 15"
-    //     ],
-    //     "deltas": [
-    //       1,
-    //       -2,
-    //       -3,
-    //       4,
-    //       9,
-    //       -3,
-    //       8
-    //     ]
-    //   },
-    //   "visitors_ios": {
-    //     "type": "count",
-    //     "key": "visitors_ios",
-    //     "name": "iOS Visits",
-    //     "values": [
-    //       24,
-    //       22,
-    //       19,
-    //       29,
-    //       68,
-    //       28,
-    //       4
-    //     ],
-    //     "units": [
-    //       "May 09",
-    //       "May 10",
-    //       "May 11",
-    //       "May 12",
-    //       "May 13",
-    //       "May 14",
-    //       "May 15"
-    //     ],
-    //     "deltas": [
-    //       12,
-    //       -12,
-    //       -13,
-    //       40,
-    //       19,
-    //       -30,
-    //       18
-    //     ]
-    //   },
-    //   "visitors_android": {
-    //     "type": "count",
-    //     "key": "visitors_android",
-    //     "name": "Android Visits",
-    //     "values": [
-    //       12,
-    //       32,
-    //       21,
-    //       29,
-    //       38,
-    //       41,
-    //       24
-    //     ],
-    //     "units": [
-    //       "May 09",
-    //       "May 10",
-    //       "May 11",
-    //       "May 12",
-    //       "May 13",
-    //       "May 14",
-    //       "May 15"
-    //     ],
-    //     "deltas": [
-    //       12,
-    //       -12,
-    //       -13,
-    //       40,
-    //       19,
-    //       -30,
-    //       18
-    //     ]
     //   }
+    // }
 
 }
 
-function valueStructure(division) {
-  if (division === 'hour') {
-    const result = new Array(4);
-    return result.fill(0);
+function addToValues(values, value, division, dateTime) {
+  switch (division) {
+    case 'hour': {
+      const hour = dateTime.getHours();
+      if (hour < 6) return values['12:00 AM - 6:00 AM'] += value;
+      if (hour < 12) return values['6:00 AM - 12:00 PM'] += value;
+      if (hour < 18) return values['12:00 PM - 6:00 PM'] += value;
+      return values['6:00 PM - 12:00 AM'] += value;
+    }
+    case 'day': {
+      const key = dateTime.getFullMonth() + ' ' + dateTime.getDate();
+      values[key] += value;
+    }
   }
 }
 
-function getUnits(division) {
-  if (division === 'hour') {
-    return [
-      '12:00 AM - 6:00 AM',
-      '6:00 AM - 12:00 PM',
-      '12:00 PM - 6:00 PM',
-      '6:00 PM - 12:00 AM'
-    ];
+function valueStructure(units) {
+  const values = new Array(units.length);
+  return values.fill(0);
+}
+
+function getUnits(division, startDate, endDate) {
+  switch (division) {
+    case 'hour': {
+      return {
+        '12:00 AM - 6:00 AM': 0,
+        '6:00 AM - 12:00 PM': 0,
+        '12:00 PM - 6:00 PM': 0,
+        '6:00 PM - 12:00 AM': 0
+      };
+    }
+    case 'day': {
+      const days = {};
+      const start = new Date(startDate);
+      const end = new Date(endDate);
+
+      while (start < end) {
+        const key = start.getFullMonth() + ' ' + start.getDate();
+        days[key] = 0;
+        start.setDate(start.getDate() + 1);
+      }
+
+      return days;
+    }
   }
 }
 
 function getAnalyticName(key) {
   const names = {
-    unique_visits: 'No. of Visits',
-    visitors: 'Unique Visitors',
+    unique_visits: 'Unique Visitors',
+    visitors: 'No. of Visits',
     visitors_ios: 'iOS Visits',
     visitors_android: 'Android Visits',
     average_duration: 'Avg. Duration'

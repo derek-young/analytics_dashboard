@@ -3,18 +3,19 @@ const Analytics = require('./analyticsModel.js');
 const controller = {
   retrieve: function(req, res, next) {
     const now = new Date();
-
-    const {
-      storeId,
-      division,
+    const { storeId, division } = req.query;
+    let {
       startDate = 0,
       endDate = now.getTime()
     } = req.query;
 
+    startDate = Number(startDate);
+    endDate = Number(endDate);
+
     const where = {
       dateTime: {
-        $gte: new Date(Number(startDate)),
-        $lte: new Date(Number(endDate))
+        $gte: new Date(startDate),
+        $lte: new Date(endDate)
       }
     };
 
@@ -29,10 +30,15 @@ const controller = {
           startDate,
           endDate,
           deltaDate: null,
-          data: Analytics.buildResponseData({ analytics, division })
+          data: Analytics.buildResponseData({
+            analytics,
+            division,
+            startDate,
+            endDate
+          })
         });
       })
-      .error(err => {
+      .catch(err => {
         console.log('Error retrieving analytics', err);
         return res.sendStatus(500);
       })
