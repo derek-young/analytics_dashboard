@@ -14,7 +14,7 @@ import { dropdownStyles } from './datePickerStyles';
 
 class YearPicker extends React.Component {
   state = {
-    value: 0,
+    value: Number(sessionStorage.getItem('yearValue')) || 0,
     options: [
       {
         text: 'This Quarter',
@@ -53,7 +53,11 @@ class YearPicker extends React.Component {
     );
   }
 
-  handleChange = (event, index, value) => this.setState({ value });
+  handleChange = (event, index, value) => {
+    this.setState({ value }, () => {
+      sessionStorage.setItem('yearValue', value);
+    });
+  }
 }
 
 export default YearPicker;

@@ -1,7 +1,14 @@
+import { getDayRange } from '../../components/Overview/Controls/DatePickers/dateParams';
+
 const defaults = {
   isFetching: false,
   isRetrieved: false,
-  division: 'hour',
+  query: {
+    storeId: null,
+    division: sessionStorage.getItem('division') || 'hour',
+    startDate: sessionStorage.getItem('startDate') || getDayRange(new Date()).startDate,
+    endDate: sessionStorage.getItem('endDate') || getDayRange(new Date()).endDate
+  },
   analytics: {
     "startDate": 1494288000,
     "endDate": 1494806400,
@@ -180,6 +187,7 @@ export default function analyticsReducer(state = defaults, action) {
         isRetrieved: false
       };
     }
+
     case 'ANALYTICS_RETRIEVED': {
       return {
         ...state,
@@ -190,9 +198,30 @@ export default function analyticsReducer(state = defaults, action) {
     }
 
     case 'UPDATE_DIVISION': {
+      sessionStorage.setItem('division', action.payload);
+
       return {
         ...state,
-        division: action.payload
+        query: {
+          ...state.query,
+          division: action.payload
+        }
+      };
+    }
+
+    case 'UPDATE_QUERY_DATES': {
+      const { startDate, endDate } = action.payload;
+
+      sessionStorage.setItem('startDate', startDate);
+      sessionStorage.setItem('endDate', endDate);
+
+      return {
+        ...state,
+        query: {
+          ...state.query,
+          startDate,
+          endDate
+        }
       };
     }
   }

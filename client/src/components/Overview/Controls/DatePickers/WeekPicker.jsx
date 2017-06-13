@@ -2,14 +2,25 @@ import React from 'react';
 import SelectField from 'material-ui/SelectField';
 import MenuItem from 'material-ui/MenuItem';
 
+import { updateQueryDates } from '../../../../redux/actions';
+import { startOfDay, endOfDay } from './dateParams';
 import { buildWeeks, fullMonthDate } from './dateHelpers';
 import { dropdownStyles } from './datePickerStyles';
 
 class WeekPicker extends React.Component {
-  state = {
-    value: 0,
-    weeks: buildWeeks()
-  };
+
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      value: Number(sessionStorage.getItem('weekValue')) || 0,
+      weeks: buildWeeks()
+    };
+  }
+
+  componentWillMount() {
+    this.updateGlobalState();
+  }
 
   render() {
     return (
@@ -27,7 +38,22 @@ class WeekPicker extends React.Component {
     );
   }
 
-  handleChange = (event, index, value) => this.setState({ value });
+  handleChange = (event, index, value) => {
+    this.setState({ value }, () => {
+      sessionStorage.setItem('weekValue', value);
+      this.updateGlobalState();
+    });
+  }
+
+  updateGlobalState = () => {
+    const selectedWeek = this.state.weeks[this.state.value];
+    const { firstDay, lastDay } = selectedWeek;
+
+    updateQueryDates({
+      startDate: startOfDay(firstDay),
+      endDate: endOfDay(lastDay)
+    });
+  }
 }
 
 export default WeekPicker;

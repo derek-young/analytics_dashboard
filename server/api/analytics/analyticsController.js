@@ -2,11 +2,40 @@ const Analytics = require('./analyticsModel.js');
 
 const controller = {
   retrieve: function(req, res, next) {
-    console.log('received analytics reqeust')
-    const { storeId, division, startDate, endDate } = req.query;
+    const now = new Date();
+
+    const {
+      storeId,
+      division,
+      startDate = 0,
+      endDate = now.getTime()
+    } = req.query;
+
+    const where = {
+      dateTime: {
+        $gte: new Date(Number(startDate)),
+        $lte: new Date(Number(endDate))
+      }
+    };
+
     console.log(division);
     console.log(startDate + ' - ' + endDate);
-    res.sendStatus(200);
+
+    if (storeId) where.storeId = storeId;
+
+    return Analytics.findAll({ where })
+      .then(analytics => {
+        return res.json({
+          startDate,
+          endDate,
+          deltaDate: null,
+          data: Analytics.buildResponseData({ analytics, division })
+        });
+      })
+      .error(err => {
+        console.log('Error retrieving analytics', err);
+        return res.sendStatus(500);
+      })
   }
 };
 

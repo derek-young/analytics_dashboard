@@ -1,18 +1,28 @@
 import React from 'react';
 import DatePicker from 'material-ui/DatePicker';
 
+import { updateQueryDates } from '../../../../redux/actions';
+import { getDayRange } from './dateParams';
 import { dayPicker } from './datePickerStyles';
 import { fullMonthDate } from './dateHelpers';
-
-
 
 class DayPicker extends React.Component {
   constructor(props) {
     super(props);
 
+    let defaultDate = new Date();
+
+    if (sessionStorage.getItem('dayValue')) {
+      defaultDate = new Date(sessionStorage.getItem('dayValue'));
+    }
+
     this.state = {
-      date: new Date()
+      date: defaultDate
     };
+  }
+
+  componentWillMount() {
+    updateQueryDates(getDayRange(this.state.date));
   }
 
   render() {
@@ -29,7 +39,10 @@ class DayPicker extends React.Component {
   }
 
   handleChange = (event, date) => {
-    this.setState({ date });
+    this.setState({ date }, () => {
+      sessionStorage.setItem('dayValue', date);
+      updateQueryDates(getDayRange(date));
+    });
   };
 
 }

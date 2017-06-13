@@ -7,7 +7,7 @@ import { dropdownStyles } from './datePickerStyles';
 
 class MonthPicker extends React.Component {
   state = {
-    value: 0,
+    value: Number(sessionStorage.getItem('monthValue')) || 0,
     months: buildMonths()
   };
 
@@ -25,7 +25,11 @@ class MonthPicker extends React.Component {
     );
   }
 
-  handleChange = (event, index, value) => this.setState({ value });
+  handleChange = (event, index, value) => {
+    this.setState({ value }, () => {
+      sessionStorage.setItem('monthValue', value);
+    });
+  }
 }
 
 export default MonthPicker;

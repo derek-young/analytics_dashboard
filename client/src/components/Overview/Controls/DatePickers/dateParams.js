@@ -1,3 +1,30 @@
+export function startOfDay(date) {
+  const startOfDay = new Date(date);
+
+  startOfDay.setHours(0);
+  startOfDay.setMinutes(0);
+  startOfDay.setSeconds(0);
+
+  return startOfDay.getTime();
+}
+
+export function endOfDay(date) {
+  const endOfDay = new Date(date);
+
+  endOfDay.setHours(23);
+  endOfDay.setMinutes(59);
+  endOfDay.setSeconds(59);
+
+  return endOfDay.getTime();
+}
+
+export function getDayRange(date) {
+  const startDate = startOfDay(date);
+  const endDate = endOfDay(date);
+
+  return { startDate, endDate };
+}
+
 export function thisQuarter() {
   console.log('get this quarter')
 }
