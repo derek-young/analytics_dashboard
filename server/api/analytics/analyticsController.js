@@ -19,23 +19,22 @@ const controller = {
       }
     };
 
-    console.log(division);
-    console.log(startDate + ' - ' + endDate);
-
     if (storeId) where.storeId = storeId;
 
     return Analytics.findAll({ where })
       .then(analytics => {
+        const data = Analytics.buildResponseData({
+          analytics,
+          division,
+          startDate,
+          endDate
+        });
+
         return res.json({
           startDate,
           endDate,
           deltaDate: null,
-          data: Analytics.buildResponseData({
-            analytics,
-            division,
-            startDate,
-            endDate
-          })
+          data
         });
       })
       .catch(err => {

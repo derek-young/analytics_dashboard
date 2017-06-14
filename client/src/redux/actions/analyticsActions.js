@@ -18,12 +18,11 @@ export function retrieveAnalytics() {
 
 function analyticsRetrieved(analytics) {
   console.log('analytics retrieved', analytics);
-  // analytics = analytics || [];
-  //
-  // return dispatch({
-  //   type: 'ANALYTICS_RETRIEVED',
-  //   payload: analytics
-  // });
+
+  return dispatch({
+    type: 'ANALYTICS_RETRIEVED',
+    payload: analytics
+  });
 }
 
 export function updateDivision(division) {

@@ -49,45 +49,7 @@ Analytics.buildResponseData = function({
     data[key].values = Object.values(unitsValues[key]);
   }
 
-  console.log(data)
-
   return data;
-
-    // {
-    //   "visitors": {
-    //     "type": "count",
-    //     "key": "visitors",
-    //     "name": "No. of Visits",
-    //     "values": [
-    //       149,
-    //       240,
-    //       121,
-    //       365,
-    //       478,
-    //       149,
-    //       68
-    //     ],
-    //     "units": [
-    //       "May 09",
-    //       "May 10",
-    //       "May 11",
-    //       "May 12",
-    //       "May 13",
-    //       "May 14",
-    //       "May 15"
-    //     ],
-    //     "deltas": [
-    //       9,
-    //       -2,
-    //       -17,
-    //       -31,
-    //       12,
-    //       -10,
-    //       28
-    //     ]
-    //   }
-    // }
-
 }
 
 function addToValues(values, value, division, dateTime) {
@@ -99,9 +61,27 @@ function addToValues(values, value, division, dateTime) {
       if (hour < 18) return values['12:00 PM - 6:00 PM'] += value;
       return values['6:00 PM - 12:00 AM'] += value;
     }
+
     case 'day': {
       const key = dateTime.getFullMonth() + ' ' + dateTime.getDate();
-      values[key] += value;
+      return values[key] += value;
+    }
+
+    case 'week': {
+      const start = new Date(dateTime);
+
+      start.setDate(start.getDate() - start.getDay());
+      const from = `${start.getMonth() + 1}/${start.getDate()}`;
+
+      start.setDate(start.getDate() + 6);
+      const to = `${start.getMonth() + 1}/${start.getDate()}`;
+
+      return values[from + ' - ' + to] += value;
+    }
+
+    case 'month': {
+      const key = dateTime.getFullMonth() + ' ' + dateTime.getFullYear();
+      return values[key] += value;
     }
   }
 }
@@ -112,6 +92,9 @@ function valueStructure(units) {
 }
 
 function getUnits(division, startDate, endDate) {
+  const start = new Date(startDate);
+  const end = new Date(endDate);
+
   switch (division) {
     case 'hour': {
       return {
@@ -121,10 +104,9 @@ function getUnits(division, startDate, endDate) {
         '6:00 PM - 12:00 AM': 0
       };
     }
+
     case 'day': {
       const days = {};
-      const start = new Date(startDate);
-      const end = new Date(endDate);
 
       while (start < end) {
         const key = start.getFullMonth() + ' ' + start.getDate();
@@ -133,6 +115,33 @@ function getUnits(division, startDate, endDate) {
       }
 
       return days;
+    }
+
+    case 'week': {
+      const weeks = {};
+
+      while (start < end) {
+        const from = `${start.getMonth() + 1}/${start.getDate()}`;
+        start.setDate(start.getDate() + 6);
+        const to = `${start.getMonth() + 1}/${start.getDate()}`;
+
+        weeks[from + ' - ' + to] = 0;
+        start.setDate(start.getDate() + 1);
+      }
+
+      return weeks;
+    }
+
+    case 'month': {
+      const months = {};
+
+      while (start < end) {
+        const key = start.getFullMonth() + ' ' + start.getFullYear();
+        months[key] = 0;
+        start.setMonth(start.getMonth() + 1);
+      }
+
+      return months;
     }
   }
 }

@@ -3,7 +3,6 @@ import SelectField from 'material-ui/SelectField';
 import MenuItem from 'material-ui/MenuItem';
 
 import { updateQueryDates } from '../../../../redux/actions';
-import { startOfDay, endOfDay } from './dateParams';
 import { buildWeeks, fullMonthDate } from './dateHelpers';
 import { dropdownStyles } from './datePickerStyles';
 
@@ -30,8 +29,12 @@ class WeekPicker extends React.Component {
         {...dropdownStyles}
       >
         {this.state.weeks.map((week, i) => {
-          const { firstDay, lastDay } = week;
-          const itemText = fullMonthDate(firstDay) + ' - ' + fullMonthDate(lastDay);
+          const { startDate, endDate } = week;
+          const itemText =
+            fullMonthDate(new Date(startDate))
+            + ' - '
+            + fullMonthDate(new Date(endDate));
+
           return <MenuItem key={i} value={i} primaryText={itemText} />
         })}
       </SelectField>
@@ -47,12 +50,9 @@ class WeekPicker extends React.Component {
 
   updateGlobalState = () => {
     const selectedWeek = this.state.weeks[this.state.value];
-    const { firstDay, lastDay } = selectedWeek;
+    const { startDate, endDate } = selectedWeek;
 
-    updateQueryDates({
-      startDate: startOfDay(firstDay),
-      endDate: endOfDay(lastDay)
-    });
+    updateQueryDates({ startDate, endDate });
   }
 }
 

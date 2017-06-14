@@ -17,11 +17,11 @@ const iconStyles = {
 
 const AnalyticsView = ({ analytics }) => {
   const {
-    visitors,
-    unique_visits: uniqueVisits,
-    visitors_ios: ios,
-    visitors_android: android,
-    average_duration: duration
+    visitors = {},
+    unique_visits: uniqueVisits = {},
+    visitors_ios: ios = {},
+    visitors_android: android = {},
+    average_duration: duration = {}
   } = analytics.data;
 
   visitors.icon = Group;
@@ -33,13 +33,15 @@ const AnalyticsView = ({ analytics }) => {
   return (
     <div className={analyticStyles.main}>
       {singleMetrics.map((metric, i) => {
-        const value = metric.values.reduce(sum);
-        const avg = value / metric.values.length;
+        const value = metric.values ? metric.values.reduce(sum) : '';
+        const avg = metric.values ? value / metric.values.length : '';
+        const delta = metric.deltas ? metric.deltas.reduce(sum) : '';
 
         return (
           <SingleMetric
+            key={i}
             value={value}
-            delta={metric.deltas.reduce(sum)}
+            delta={delta}
             average={avg}
             iconStyles={iconStyles}
             {...metric}
@@ -49,11 +51,11 @@ const AnalyticsView = ({ analytics }) => {
       <DoubleMetric
         metric1={{
           label: ios.name,
-          value: ios.values.reduce(sum)
+          value: ios.values ? ios.values.reduce(sum) : ''
         }}
         metric2={{
           label: android.name,
-          value: android.values.reduce(sum)
+          value: android.values ? android.values.reduce(sum) : ''
         }}
         icon={Chat}
         iconStyles={iconStyles}
