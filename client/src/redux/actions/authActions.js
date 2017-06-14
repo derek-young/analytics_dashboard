@@ -5,13 +5,15 @@ import store from '../../redux/store';
 const { dispatch } = store;
 import { receiveSettings } from '../actions';
 
-export function authenticateUser() {
-  return axios.get('/api/user/authenticate', {
+export function verifyAuthentication() {
+  return axios.get('/api/protected/user/authenticate', {
       headers: { Authorization: 'Bearer ' + localStorage.token }
     })
     .then(res => res.data)
-    .then(receiveSigin)
-    .catch(err => console.log('Error retrieving user ', err));
+    .catch(err => {
+      console.log('Error authenticating user ', err);
+      if (err.response.status === 403) signout();
+    });
 }
 
 export function signinSignup(type, creds) {

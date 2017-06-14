@@ -9,6 +9,7 @@ router.get('/', userCtrl.signin);
 router.post('/', userCtrl.create);
 protectedRouter.get('/settings', userCtrl.getSettings);
 protectedRouter.patch('/settings', userCtrl.updateSettings);
+protectedRouter.get('/authenticate', userCtrl.authenticate);
 
 module.exports.router = router;
 module.exports.protectedRouter = protectedRouter;

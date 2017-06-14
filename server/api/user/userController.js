@@ -86,6 +86,11 @@ const controller = {
         });
     }
     return res.sendStatus(500);
+  },
+
+  authenticate: function(req, res, next) {
+    // this path is only hit if the user has been verified
+    return res.sendStatus(200);
   }
 };
 

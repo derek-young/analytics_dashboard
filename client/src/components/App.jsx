@@ -6,6 +6,7 @@ import {
 } from 'react-router-dom';
 import { connect } from 'react-redux';
 
+import { verifyAuthentication } from '../redux/actions';
 import appStyles from './appStyles.css';
 
 import Header from './Header/Header';
@@ -15,35 +16,49 @@ import PrivateRoute from './Auth/PrivateRoute';
 import Overview from './Overview/Overview';
 import Settings from './Settings/Settings';
 
-const App = ({ auth, location, history }) => (
-  <div>
-    <Header isAuthenticated={auth.isAuthenticated} history={history} />
-    <div className={appStyles.body}>
-      {!location.pathname.includes('/auth') && auth.isAuthenticated && <Nav />}
-      <Switch>
-        <Route path="/auth" component={Authorization} />
-        <PrivateRoute
-          exact path="/overview"
-          component={Overview}
-          isAuthenticated={auth.isAuthenticated}
-        />
-        <PrivateRoute
-          exact path="/settings"
-          component={Settings}
-          isAuthenticated={auth.isAuthenticated}
-        />
+class App extends React.Component {
+  componentWillMount() {
+    const { auth: { isAuthenticated }} = this.props;
 
-        {/* Catch all - redirect to /overview */}
-        <Route render={props => (
-          <Redirect to={{
-            pathname: '/overview',
-            state: { from: props.location }
-          }} />
-        )} />
-      </Switch>
-    </div>
-  </div>
-);
+    if (isAuthenticated) {
+      verifyAuthentication();
+    }
+  }
+
+  render() {
+    const { auth, location, history } = this.props;
+
+    return (
+      <div>
+        <Header isAuthenticated={auth.isAuthenticated} history={history} />
+        <div className={appStyles.body}>
+          {!location.pathname.includes('/auth') && auth.isAuthenticated && <Nav />}
+          <Switch>
+            <Route path="/auth" component={Authorization} />
+            <PrivateRoute
+              exact path="/overview"
+              component={Overview}
+              isAuthenticated={auth.isAuthenticated}
+            />
+            <PrivateRoute
+              exact path="/settings"
+              component={Settings}
+              isAuthenticated={auth.isAuthenticated}
+            />
+
+            {/* Catch all - redirect to /overview */}
+            <Route render={props => (
+              <Redirect to={{
+                pathname: '/overview',
+                state: { from: props.location }
+              }} />
+            )} />
+          </Switch>
+        </div>
+      </div>
+    );
+  }
+}
 
 export default connect((store) => ({
   auth: store.auth
