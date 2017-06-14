@@ -3,6 +3,8 @@ import axios from 'axios';
 import store from '../../redux/store';
 const { dispatch } = store;
 
+import { signout } from './authActions';
+
 export function getUserSettings() {
   retrieveSettings();
 
@@ -11,7 +13,12 @@ export function getUserSettings() {
     })
     .then(res => res.data)
     .then(receiveSettings)
-    .catch(err => console.log('Error retrieving user ', err));
+    .catch(err => {
+      console.log('Error retrieving user ', err);
+      if (err.response.status === 403) {
+        signout();
+      }
+    });
 }
 
 export function updateUser({ name, email }) {

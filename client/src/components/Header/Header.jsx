@@ -36,7 +36,7 @@ const Header = ({ isAuthenticated, history }) => (
     <div className={headerStyles.logo}>
       <img src="img/accenture-red-arrow-logo@2x.jpg" />
     </div>
-    {isAuthenticated &&
+    {isAuthenticated && !history.location.pathname.includes('/auth') && 
       <div className={headerStyles.right}>
         <Notification style={notification} />
         <IconMenu

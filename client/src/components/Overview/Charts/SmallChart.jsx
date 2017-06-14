@@ -13,7 +13,10 @@ class SmallChart extends React.Component {
   }
 
   render() {
-    const { title, footerMetrics = [] } = this.props;
+    const { title } = this.props;
+    let { footerMetrics } = this.props;
+    footerMetrics = footerMetrics || [];
+
     return (
       <div>
         <div className={chartStyles['chart-heading']}>

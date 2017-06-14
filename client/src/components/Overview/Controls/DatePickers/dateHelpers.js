@@ -1,3 +1,5 @@
+import { startOfDay, endOfDay, getFullWeekMonthRange } from './dateParams';
+
 Date.prototype.getFullMonth = function() {
   const month = new Array();
   month[0] = 'January';
@@ -31,21 +33,17 @@ export function buildWeeks() {
   const today = new Date;
   const first = today.getDate() - today.getDay();
   const last = first + 6;
-  let firstDay = new Date(today.setDate(first));
-  let lastDay = new Date(today.setDate(last));
+  let firstDay = startOfDay(today.setDate(first));
+  let lastDay = endOfDay(today.setDate(last));
 
-  weeks.push({
-    firstDay: new Date(firstDay),
-    lastDay: new Date(lastDay)
-  });
+  for (let i = 0; i < weeksToDisplay; i++) {
+    weeks.push({
+      startDate: firstDay.getTime(),
+      endDate: lastDay.getTime()
+    });
 
-  for (let i = 1; i < weeksToDisplay; i++) {
-    const week = {
-      firstDay: new Date(firstDay.setDate(firstDay.getDate() - 7)),
-      lastDay: new Date(lastDay.setDate(lastDay.getDate() - 7))
-    };
-
-    weeks.push(week)
+    firstDay.setDate(firstDay.getDate() - 7);
+    lastDay.setDate(lastDay.getDate() - 7);
   }
 
   return weeks;
@@ -54,22 +52,19 @@ export function buildWeeks() {
 export function buildMonths() {
   const months = [];
   const lastXMonths = 12;
-  const today = new Date;
+  const date = new Date;
 
   for (let i = 0; i < lastXMonths; i++) {
-    const month = new Month({
-      index: today.getMonth(),
-      fullName: `${today.getFullMonth()}, ${today.getFullYear()}`
-    });
+    const { startDate, endDate } = getFullWeekMonthRange(date);
+    const month = {
+      startDate,
+      endDate,
+      fullName: date.getFullMonth() + ' ' + date.getFullYear()
+    };
 
     months.push(month);
-    today.setMonth(today.getMonth() - 1);
+    date.setMonth(date.getMonth() - 1);
   }
 
   return months;
-}
-
-function Month({ index, fullName }) {
-  this.index= index;
-  this.fullName = fullName;
 }

@@ -11,14 +11,20 @@ import SmallChart from './SmallChart';
 class ChartsView extends React.Component {
   render() {
     const { analytics: { data }} = this.props;
-    const { visitors_ios: ios, visitors_android: android } = data;
+    const dataExists = Object.keys(data).length > 0;
+    let iosTotal, androidTotal, iosPercent, androidPercent;
 
-    const iosTotal = ios.values.reduce((a, b) => a + b);
-    const androidTotal = android.values.reduce((a, b) => a + b);
-    const iosPercent = (iosTotal / (iosTotal + androidTotal) * 100).toFixed(2);
-    const androidPercent = (androidTotal / (iosTotal + androidTotal) * 100).toFixed(2);
+    if (dataExists) {
+      let { visitors_ios: ios, visitors_android: android } = data;
+      iosTotal = ios.values.reduce((a, b) => a + b);
+      androidTotal = android.values.reduce((a, b) => a + b);
+      iosPercent = (iosTotal / (iosTotal + androidTotal) * 100).toFixed(2);
+      androidPercent = (androidTotal / (iosTotal + androidTotal) * 100).toFixed(2);
+    }
 
     return (
+      dataExists
+      ?
       <div>
         <div className={chartStyles['upper-charts']}>
           <MediumChart
@@ -38,6 +44,10 @@ class ChartsView extends React.Component {
           data={this.getVisitDurationData(data)}
           title="Customer Visit Duration"
         />
+      </div>
+      :
+      <div>
+        <p>No data available for this date range.</p>
       </div>
     );
   }
