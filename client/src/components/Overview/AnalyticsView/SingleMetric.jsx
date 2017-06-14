@@ -22,7 +22,7 @@ const SingleMetric = ({
             {name}
           </span>
           &nbsp;
-          {
+          { delta &&
             delta >= 0
             ?
             <span className={analyticStyles['data__delta-positive']}>

@@ -5,22 +5,15 @@ import chartStyles from './chartStyles.css';
 
 class MediumChart extends React.Component {
   componentDidMount() {
-    const medium = document.getElementById("medium-chart");
-    const { data, type = 'bar' } = this.props;
+    this.renderChart();
+  }
 
-    new Chart(medium, {
-      type,
-      data,
-      options: {
-        scales: {
-          xAxes: [{ stacked: true }],
-          yAxes: [{ stacked: true }]
-        }
-      }
-    });
+  componentDidUpdate() {
+    this.renderChart();
   }
 
   render() {
+    console.log(this.props.data);
     const { title } = this.props;
     return (
       <div>
@@ -32,6 +25,22 @@ class MediumChart extends React.Component {
         </div>
       </div>
     );
+  }
+
+  renderChart = () => {
+    const medium = document.getElementById('medium-chart');
+    const { data, type = 'bar' } = this.props;
+
+    const chart = new Chart(medium, {
+      type,
+      data,
+      options: {
+        scales: {
+          xAxes: [{ stacked: true }],
+          yAxes: [{ stacked: true }]
+        }
+      }
+    });
   }
 }
 

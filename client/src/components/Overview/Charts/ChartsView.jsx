@@ -10,7 +10,7 @@ import SmallChart from './SmallChart';
 
 class ChartsView extends React.Component {
   render() {
-    const { analytics: { data }} = this.props;
+    const { data } = this.props;
     const dataExists = Object.keys(data).length > 0;
     let iosTotal, androidTotal, iosPercent, androidPercent;
 
@@ -109,5 +109,5 @@ class ChartsView extends React.Component {
 }
 
 export default connect(store => ({
-  analytics: store.analytics.analytics
+  data: store.analytics.analytics.data
 }))(ChartsView);

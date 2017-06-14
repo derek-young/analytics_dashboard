@@ -35,7 +35,7 @@ const AnalyticsView = ({ analytics }) => {
       {singleMetrics.map((metric, i) => {
         const value = metric.values ? metric.values.reduce(sum) : '';
         const avg = metric.values ? value / metric.values.length : '';
-        const delta = metric.deltas ? metric.deltas.reduce(sum) : '';
+        const delta = metric.deltas ? metric.deltas.reduce(sum) : false;
 
         return (
           <SingleMetric
