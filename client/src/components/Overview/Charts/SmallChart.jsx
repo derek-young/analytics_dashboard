@@ -6,11 +6,31 @@ import chartStyles from './chartStyles.css';
 import DeviceMetric from './DeviceMetric';
 
 class SmallChart extends React.Component {
-  componentDidMount() {
-    const small = document.getElementById('small-chart');
-    const { data, type = 'doughnut' } = this.props;
-    new Chart(small, { type, data });
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      chart: null
+    };
   }
+
+  componentDidMount() {
+    const { data, type } = this.props;
+    this.renderChart(data, type);
+  }
+
+  componentWillUnmount() {
+    const chart = this.state.chart;
+    chart.destroy();
+  }
+
+  componentWillReceiveProps(nextProps) {
+    const chart = this.state.chart;
+    const { data, type } = nextProps;
+
+    chart.destroy();
+    this.renderChart(data, type);
+  };
 
   render() {
     const { title } = this.props;
@@ -32,6 +52,15 @@ class SmallChart extends React.Component {
         </div>
       </div>
     );
+  }
+
+  renderChart = (data, type = 'doughnut') => {
+    const small = document.getElementById('small-chart');
+    const chart = new Chart(small, { type, data });
+
+    this.setState({
+      chart
+    });
   }
 }
 

@@ -4,16 +4,32 @@ import Chart from 'chart.js';
 import chartStyles from './chartStyles.css';
 
 class MediumChart extends React.Component {
-  componentDidMount() {
-    this.renderChart();
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      chart: null
+    };
   }
 
-  componentDidUpdate() {
-    this.renderChart();
+  componentDidMount() {
+    const { data, type } = this.props;
+    this.renderChart(data, type);
   }
+
+  componentWillUnmount() {
+    const chart = this.state.chart;
+    chart.destroy();
+  }
+
+  componentWillReceiveProps(nextProps) {
+    const chart = this.state.chart;
+    const { data, type } = nextProps;
+    chart.destroy();
+    this.renderChart(data, type);
+  };
 
   render() {
-    console.log(this.props.data);
     const { title } = this.props;
     return (
       <div>
@@ -27,10 +43,8 @@ class MediumChart extends React.Component {
     );
   }
 
-  renderChart = () => {
+  renderChart = (data, type = 'bar') => {
     const medium = document.getElementById('medium-chart');
-    const { data, type = 'bar' } = this.props;
-
     const chart = new Chart(medium, {
       type,
       data,
@@ -40,6 +54,10 @@ class MediumChart extends React.Component {
           yAxes: [{ stacked: true }]
         }
       }
+    });
+
+    this.setState({
+      chart
     });
   }
 }

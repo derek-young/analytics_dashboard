@@ -6,12 +6,31 @@ import chartStyles from './chartStyles.css';
 import DeviceMetric from './DeviceMetric';
 
 class LargeChart extends React.Component {
-  componentDidMount() {
-    const large = document.getElementById('large-chart');
-    const { data, type = 'line' } = this.props;
+  constructor(props) {
+    super(props);
 
-    new Chart(large, { type, data });
+    this.state = {
+      chart: null
+    };
   }
+
+  componentDidMount() {
+    const { data, type } = this.props;
+    this.renderChart(data, type);
+  }
+
+  componentWillUnmount() {
+    const chart = this.state.chart;
+    chart.destroy();
+  }
+
+  componentWillReceiveProps(nextProps) {
+    const chart = this.state.chart;
+    const { data, type } = nextProps;
+    
+    chart.destroy();
+    this.renderChart(data, type);
+  };
 
   render() {
     return (
@@ -24,6 +43,15 @@ class LargeChart extends React.Component {
         </div>
       </div>
     );
+  }
+
+  renderChart = (data, type = 'line') => {
+    const large = document.getElementById('large-chart');
+    const chart = new Chart(large, { type, data });
+
+    this.setState({
+      chart
+    });
   }
 }
 
