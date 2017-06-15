@@ -56,10 +56,7 @@ function addToValues(values, value, division, dateTime) {
   switch (division) {
     case 'hour': {
       const hour = dateTime.getHours();
-      if (hour < 6) return values['12:00 AM - 6:00 AM'] += value;
-      if (hour < 12) return values['6:00 AM - 12:00 PM'] += value;
-      if (hour < 18) return values['12:00 PM - 6:00 PM'] += value;
-      return values['6:00 PM - 12:00 AM'] += value;
+      return values[hour] += value;
     }
 
     case 'day': {
@@ -97,12 +94,9 @@ function getUnits(division, startDate, endDate) {
 
   switch (division) {
     case 'hour': {
-      return {
-        '12:00 AM - 6:00 AM': 0,
-        '6:00 AM - 12:00 PM': 0,
-        '12:00 PM - 6:00 PM': 0,
-        '6:00 PM - 12:00 AM': 0
-      };
+      const hours = new Array(24);
+      hours.fill(0);
+      return hours;
     }
 
     case 'day': {
