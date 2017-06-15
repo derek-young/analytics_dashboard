@@ -5,6 +5,11 @@
 .upper-charts {
   justify-content: space-between;
   margin: 20px 0;
+  flex-wrap: wrap;
+}
+
+.upper-charts > div {
+  margin: 5px;
 }
 
 .chart-heading, .metric-label, .metric-value {
@@ -59,8 +64,12 @@
   padding: 20px;
 }
 
+.medium-chart {
+  width: calc(100% - 400px);
+  min-width: 630px;
+}
+
 .medium-chart-canvas {
-  width: 695px;
   padding: 20px;
 }
 

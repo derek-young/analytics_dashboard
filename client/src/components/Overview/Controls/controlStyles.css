@@ -4,10 +4,17 @@
 
 .main {
   background-color: #EEE;
-  height: 47px;
   justify-content: space-between;
   align-items: center;
   color: #4a4a4a;
+}
+
+.left, .right {
+  margin: 5px 0;
+}
+
+.left {
+  margin-right: 10px;
 }
 
 .left > * {
@@ -27,4 +34,10 @@
 
 .selected {
   border: 2px solid #a4a4a4;
+}
+
+@media (max-width: 670px) {
+  .main {
+    flex-direction: column;
+  }
 }

@@ -9,6 +9,7 @@ import PersonOutline from 'material-ui/svg-icons/social/person-outline';
 
 import { signout } from '../../redux/actions';
 import headerStyles from './headerStyles.css';
+import MiniNav from '../Nav/MiniNav';
 
 const notification = {
   height: 30,
@@ -31,12 +32,15 @@ const menu = {
   backgroundColor: 'white'
 };
 
-const Header = ({ isAuthenticated, history }) => (
+const Header = ({ isAuthenticated, menuItems, history }) => (
   <header className={headerStyles.main}>
-    <div className={headerStyles.logo}>
-      <img src="img/accenture-red-arrow-logo@2x.jpg" />
+    <div className={headerStyles.left}>
+      <MiniNav menuItems={menuItems} />
+      <div className={headerStyles.logo}>
+        <img src="img/accenture-red-arrow-logo@2x.jpg" />
+      </div>
     </div>
-    {isAuthenticated && !history.location.pathname.includes('/auth') && 
+    {isAuthenticated && !history.location.pathname.includes('/auth') &&
       <div className={headerStyles.right}>
         <Notification style={notification} />
         <IconMenu

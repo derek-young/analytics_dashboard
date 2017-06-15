@@ -32,7 +32,7 @@ class MediumChart extends React.Component {
   render() {
     const { title } = this.props;
     return (
-      <div>
+      <div className={chartStyles['medium-chart']}>
         <div className={chartStyles['chart-heading']}>
           {title}
         </div>

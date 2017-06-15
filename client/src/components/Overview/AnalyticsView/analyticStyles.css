@@ -3,7 +3,7 @@
 }
 
 .metric, .double-metric {
-  height: 95px;
+  min-height: 95px;
   background-color: white;
   box-shadow: -3px 2px 2px 0 rgba(119, 151, 178, 0.16);
 }
@@ -12,7 +12,12 @@
   justify-content: space-between;
 }
 
+.metric, .double-metric {
+  margin-top: 10px;
+}
+
 .metric {
+  margin-right: 10px;
   width: 245px;
 }
 
@@ -32,7 +37,7 @@
 }
 
 .data {
-  padding: 0 10px;
+  padding: 5px 10px;
 }
 
 .double-data {
@@ -84,4 +89,15 @@
 
 .metric2 {
   width: 105px;
+}
+
+@media (max-width: 740px) {
+  .main {
+    justify-content: space-around;
+    flex-wrap: wrap;
+  }
+
+  .metric, .double-metric {
+    width: auto;
+  }
 }

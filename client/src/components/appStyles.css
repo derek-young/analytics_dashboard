@@ -5,7 +5,9 @@
 
 .content {
   width: 100%;
-  padding: 20px 0 20px 224px;
+  padding: 20px 0;
+  margin-left: 224px;
+  overflow: auto;
 }
 
 .header {
@@ -14,4 +16,16 @@
 
 .button button:hover {
   opacity: 0.8;
+}
+
+@media (max-width: 900px) {
+  .content {
+    margin-left: 0;
+  }
+}
+
+@media (max-width: 670px) {
+  .header {
+    text-align: center;
+  }
 }

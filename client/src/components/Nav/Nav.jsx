@@ -5,11 +5,6 @@ import MenuItem from 'material-ui/MenuItem';
 import Divider from 'material-ui/Divider';
 import { Link } from 'react-router-dom';
 
-import RemoveRedEye from 'material-ui/svg-icons/image/remove-red-eye';
-import Clock from 'material-ui/svg-icons/device/access-time';
-import TimeLine from 'material-ui/svg-icons/action/timeline';
-import Settings from 'material-ui/svg-icons/action/settings';
-
 import navStyles from './navStyles.css';
 
 const menu = {
@@ -21,43 +16,29 @@ const menu = {
   backgroundColor: '#4a4a4a'
 };
 
-const Nav = () => (
-  <div>
+const Nav = ({ menuItems }) => (
+  <div className={navStyles.main}>
     <Paper style={menu}>
       <Menu className={navStyles.menu}>
-        <p className={navStyles.heading}>
-          Data & Analytics
-        </p>
-        <Link to="/overview">
-          <MenuItem
-            style={getMenuItemStyle({ path: '#/overview' })}
-            primaryText="Overview"
-            leftIcon={<TimeLine />}
-          />
-        </Link>
-        <MenuItem
-          style={getMenuItemStyle({ path: '#' })}
-          primaryText="Lorem Ipsum"
-          leftIcon={<RemoveRedEye />}
-        />
-        <MenuItem
-          style={getMenuItemStyle({ path: '#' })}
-          primaryText="Itusa Moren"
-          leftIcon={<Clock />}
-        />
-        <br />
-        <br />
-        <br />
-        <p className={navStyles.heading}>
-          Profile
-        </p>
-        <Link to="/settings">
-          <MenuItem
-            style={getMenuItemStyle({ path: '#/settings' })}
-            primaryText="Settings"
-            leftIcon={<Settings />}
-          />
-        </Link>
+        {menuItems.map((menuSection, i) => (
+          <section key={i}>
+            <p className={navStyles.heading}>
+              {menuSection.heading}
+            </p>
+            {menuSection.items.map(({ path, text, Icon }, i) => (
+              <Link key={i} to={path}>
+                <MenuItem
+                  style={getMenuItemStyle({ path })}
+                  primaryText={text}
+                  leftIcon={<Icon />}
+                />
+              </Link>
+            ))}
+            <br />
+            <br />
+            <br />
+          </section>
+        ))}
       </Menu>
     </Paper>
   </div>
@@ -77,7 +58,9 @@ function getMenuItemStyle({ path }) {
     color: '#FFF'
   };
 
-  if (path === window.location.hash) {
+  const hash = window.location.hash;
+
+  if (path === hash.substring(1, hash.length)) {
     return { ...menuItem, ...selectedMenuItem };
   }
 

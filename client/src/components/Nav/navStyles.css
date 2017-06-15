@@ -1,5 +1,5 @@
 .menu {
-  max-width: 240px;
+  width: 224px;
 }
 
 .heading {
@@ -9,4 +9,32 @@
   font-size: 12px;
   font-weight: 100;
   text-transform: uppercase;
+}
+
+.miniNav {
+  display: none;
+}
+
+
+.icon {
+  width: 30px !important;
+  height: 30px !important;
+}
+
+@media (max-width: 900px) {
+  .main {
+    display: none;
+  }
+
+  .miniNav {
+    display: block;
+    margin-top: 5px;
+    margin-right: 20px;
+  }
+}
+
+@media (min-width: 900px) {
+  .menu {
+    width: 224px;
+  }
 }

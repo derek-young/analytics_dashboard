@@ -26,13 +26,21 @@ class App extends React.Component {
   }
 
   render() {
-    const { auth, location, history } = this.props;
+    const { auth, menuItems, location, history } = this.props;
 
     return (
       <div>
-        <Header isAuthenticated={auth.isAuthenticated} history={history} />
+        <Header
+          isAuthenticated={auth.isAuthenticated}
+          menuItems={menuItems}
+          history={history}
+        />
         <div className={appStyles.body}>
-          {!location.pathname.includes('/auth') && auth.isAuthenticated && <Nav />}
+          {
+            !location.pathname.includes('/auth')
+            && auth.isAuthenticated
+            && <Nav menuItems={menuItems} />
+          }
           <Switch>
             <Route path="/auth" component={Authorization} />
             <PrivateRoute
@@ -61,5 +69,6 @@ class App extends React.Component {
 }
 
 export default connect((store) => ({
-  auth: store.auth
+  auth: store.auth,
+  menuItems: store.nav.menuItems
 }))(App);

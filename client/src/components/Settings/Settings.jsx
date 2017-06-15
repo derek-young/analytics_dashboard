@@ -15,9 +15,9 @@ import buttonStyle from '../buttonStyle';
 import settingStyles from './settingStyles.css';
 
 const paperStyles = {
-  width: 500,
   backgroundColor: 'white',
   marginLeft: 30,
+  marginRight: 30,
   paddingTop: 20,
   paddingBottom: 20
 };
