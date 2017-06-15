@@ -99,5 +99,10 @@
 
   .metric, .double-metric {
     width: auto;
+    width: 260px;
+  }
+
+  .double-metric {
+    margin-right: 10px;
   }
 }
